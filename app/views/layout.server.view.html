@@ -53,10 +53,15 @@
         <img src="/img/logo.png" />
     </div>
 
+
+    <div class="circle"></div>
+
 	<!--Embedding The User Object-->
 	<script type="text/javascript">
 		var user = {{ user | json | safe }};
 	</script>
+
+    <footer data-ng-include="'/modules/core/views/footer.client.view.html'" class="footer"></footer>
 
 	<!--Application JavaScript Files-->
 	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
