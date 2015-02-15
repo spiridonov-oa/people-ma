@@ -32,10 +32,10 @@ body, html {
 
 }
 .footer {
-    border-top: 2px solid #333;
+    border-top: 2px solid #999;
     position: absolute;
     bottom: 0;
-    height: 8em;
+    height: 6em;
     width: 100%;
 }
 .contact-us {
@@ -75,6 +75,19 @@ body, html {
 
 .menu {
     position: absolute;
-    bottom: 8em;
+    bottom: 6em;
     width: 100%;
+}
+
+.menu ul {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.menu li a {
+    display: block;
+    text-align: center;
+    padding: 2.3em 0;
+    font-size: 1.5em;
+    text-transform: uppercase;
 }
