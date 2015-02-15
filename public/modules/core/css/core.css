@@ -1,6 +1,3 @@
-.content {
-	margin-top: 50px;
-}
 .undecorated-link:hover {
 	text-decoration: none;
 }
@@ -12,4 +9,43 @@
 }
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
+}
+
+
+
+body, html {
+    min-height: 100%;
+    height: 100%;
+}
+.logo {
+    position: absolute;
+    top: 5%;
+    left: 2%;
+}
+
+/**************************************************************************************
+ HOME PAGE
+ *************************************************************************************/
+.home-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background: url('../img/home-bg.jpg') no-repeat 100% 0;
+    background-size: contain;
+}
+.wrapper-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.home-img-bg {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
