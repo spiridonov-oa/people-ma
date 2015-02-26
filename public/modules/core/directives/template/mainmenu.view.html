@@ -1,0 +1,17 @@
+<div class="menu" >
+    <nav>
+        <ul>
+            <li data-ng-repeat="item in menu.items | orderBy: 'position'"
+                ng-switch="item.menuItemType"
+                ui-route="{{item.uiRoute}}"
+                class="{{item.menuItemClass}}"
+                ng-class="{active: ($uiRoute)}"
+                dropdown="item.menuItemType === 'dropdown'">
+                <a href="/#!/{{item.link}}">
+                    <span data-ng-bind="item.title"></span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</div>
