@@ -43,25 +43,37 @@
 	<![endif]-->
 </head>
 
-<body class="ng-cloak">
+<body class="ng-cloak" data-ng-class="$root.stateName()">
 	<!-- <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>  -->
-    <section class="content">
-			{% block content %}{% endblock %}
-	</section>
+    <main class="main" >
 
-    <div class="logo" >
-        <img src="/img/logo.png" />
+        <circle></circle>
+
+        <section data-ui-view class="content"></section>
+
+        <div class="logo" >
+            <a ui-sref="home">
+                <img src="/img/logo.png" />
+            </a>
+        </div>
+
+        <div class="language"></div>
+
+        <div class="hFooter"></div>
+    </main>
+    <div class="footer" >
+
+        <div class="line-wrapper">
+            <div class="bottom-line"></div>
+        </div>
+        <mainmenu></mainmenu>
+        <footer data-ng-include="'/modules/core/views/footer.client.view.html'"></footer>
     </div>
 
-
-    <div class="circle"></div>
-
-	<!--Embedding The User Object-->
-	<script type="text/javascript">
-		var user = {{ user | json | safe }};
-	</script>
-
-    <footer data-ng-include="'/modules/core/views/footer.client.view.html'" class="footer"></footer>
+    <!--Embedding The User Object-->
+    <script type="text/javascript">
+        var user = {{ user | json | safe }};
+    </script>
 
 	<!--Application JavaScript Files-->
 	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
