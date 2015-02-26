@@ -5,7 +5,7 @@ angular.module('projects').config(['$stateProvider',
 	function($stateProvider) {
 		// Projects state routing
 		$stateProvider.
-		state('listProjects', {
+		state('projects', {
 			url: '/projects',
 			templateUrl: 'modules/projects/views/list-projects.client.view.html'
 		}).
