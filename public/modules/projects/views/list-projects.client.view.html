@@ -1,6 +1,14 @@
 <section data-ng-controller="ProjectsController" class="projects-page" data-ng-init="find()">
-    <div>Commerce</div>
-    <projects></projects>
-    <div>Live</div>
-    <projects></projects>
+    <div class="projects-bg"></div>
+
+    <div class="wrapper">
+        <div class="line">
+            <div class="projects-type">Commerce</div>
+            <projects type="commerce"></projects>
+        </div>
+        <div class="line">
+            <div class="projects-type">Live</div>
+            <projects type="live"></projects>
+        </div>
+    </div>
 </section>

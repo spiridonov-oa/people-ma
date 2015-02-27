@@ -1,9 +1,13 @@
 'use strict';
 
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
-	function($scope, $stateParams, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
+	function($scope, $rootScope, $stateParams, $state, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
+
+        $rootScope.stateName = function () {
+            return $state.current.name;
+        };
 
 		// Create new Project
 		$scope.create = function() {
@@ -25,7 +29,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
 		// Remove existing Project
 		$scope.remove = function(project) {
-			if ( project ) { 
+			if ( project ) {
 				project.$remove();
 
 				for (var i in $scope.projects) {
@@ -58,7 +62,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
 		// Find existing Project
 		$scope.findOne = function() {
-			$scope.project = Projects.get({ 
+			$scope.project = Projects.get({
 				projectId: $stateParams.projectId
 			});
 		};

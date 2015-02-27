@@ -1,6 +1,7 @@
 <div class="projects-line" >
-    <div data-ng-repeat="project in projects">
-        <div><img src="{{project.image}}" /></div>
-        <div data-ng-bind="project.name"></div>
+    <div data-ng-repeat="project in projects" class="project-item">
+        <div class="project-icon"><img data-ng-src="{{project.image}}" /></div>
+        <div class="project-name" data-ng-bind="project.name"></div>
     </div>
+    <div class="wire"></div>
 </div>
