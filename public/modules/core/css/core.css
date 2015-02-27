@@ -31,13 +31,13 @@ body, html {
 }
 .logo {
     position: absolute;
-    top: 0;
+    top: 2%;
     left: 2%;
-    padding: 2em 1em 1em 0;
-    background: #fff;
+    padding: 0;
+    width: 11%;
 }
 .logo img {
-
+     width: 100%;
 }
 .circle {
     position: absolute;
@@ -104,8 +104,19 @@ body, html {
     margin-left: -50%;
     height: 800px;
     border-top: 2px solid #333;
+    border-radius: 0;
+    background: #fff;
+
+    -webkit-transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+}
+
+.radius .bottom-line {
     border-radius: 50%;
     background: #fff;
+
 }
 
 .line-wrapper {
@@ -209,7 +220,7 @@ body, html {
     overflow: auto;
 }
 .about-us .logo {
-    width: 33%;
+    width: 12%;
 }
 .about-us .text {
     position: absolute;
@@ -227,8 +238,7 @@ body, html {
     position: absolute;
     border: 2px solid #f3c58d;
     border-radius: 50%;
-    background: #f9f9f9;
-    box-shadow: inset 5px 5px 10px #777777;
+    /*box-shadow: inset 5px 5px 10px #777777;        */
 }
 .home .circle {
     display: block;

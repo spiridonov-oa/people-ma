@@ -21,7 +21,7 @@
 }
 
 .projects-type {
-    float: left;
+    float: right;
     margin-left: 2%;
     margin-right: 2%;
     line-height: 60px;
@@ -31,12 +31,11 @@
 }
 
 .projects-line {
-    float: left;
+    float: right;
     position: relative;
     margin-bottom: 4em;
     width: 70%;
     border-left: 1px dashed #333;
-    border-right: 1px dashed #333;
     overflow: hidden;
 }
 
@@ -45,7 +44,7 @@
     top: 30px;
     left: 0;
     width: 100%;
-    border-top: 1px solid #333;
+    border-top: 1px solid #666666;
     z-index: -1;
 }
 
