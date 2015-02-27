@@ -10,8 +10,6 @@ angular.module('core').run(['Menus',
 
         Menus.addMenuItem('mainmenu', 'About Us', 'about-us', 'left-margin', '/about', true, null, 3);
 
-        Menus.addMenuItem('mainmenu', 'People', 'people', 'dropdown', '/people', true, null, 4);
-
         Menus.addMenuItem('mainmenu', 'News', 'news', 'dropdown', '/news', true, null, 5);
 	}
 ]);
