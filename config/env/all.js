@@ -2,7 +2,7 @@
 
 module.exports = {
 	app: {
-		title: 'arch',
+		title: 'people-ma',
 		description: 'bussiness-card site',
 		keywords: 'landscapin'
 	},
