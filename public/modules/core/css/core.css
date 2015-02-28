@@ -116,7 +116,6 @@ body, html {
 .radius .bottom-line {
     border-radius: 50%;
     background: #fff;
-
 }
 
 .line-wrapper {
@@ -238,7 +237,6 @@ body, html {
     position: absolute;
     border: 2px solid #f3c58d;
     border-radius: 50%;
-    /*box-shadow: inset 5px 5px 10px #777777;        */
 }
 .home .circle {
     display: block;
