@@ -1,0 +1,22 @@
+/**************************************************************************************
+ ABOUT US PAGE
+ *************************************************************************************/
+.about-us-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 8em;
+}
+
+.about-us .text {
+    position: absolute;
+    width: 39%;
+    top: 150px;
+    left: 2%;
+}
+
+.about-us .circle {
+    display: block;
+    bottom: 13em;
+}
