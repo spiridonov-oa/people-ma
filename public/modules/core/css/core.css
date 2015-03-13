@@ -146,10 +146,10 @@ body, html {
     width: 70%;
 
 
-    -webkit-transition:  1s ease-out;
-    -moz-transition:  1s ease-out ;
-    -o-transition:  1s ease-out ;
-    transition:  1s ease-out ;
+    -webkit-transition:  0.5s ease-out;
+    -moz-transition:  0.5s ease-out ;
+    -o-transition:  0.5s ease-out ;
+    transition:  0.5s ease-out ;
 }
 
 .menu ul {
@@ -160,38 +160,38 @@ body, html {
 .menu li {
     display: inline-block;
     width: 18%;
-
-    -webkit-transition:  1s ease-out;
-    -moz-transition:  1s ease-out ;
-    -o-transition:  1s ease-out ;
-    transition:  1s ease-out ;
 }
 .menu li a {
     display: block;
     text-align: center;
-    padding: 1em 1.2em;
+    line-height: 3em;
     font-size: 16px;
     color: #333;
     text-transform: uppercase;
     text-shadow: 0 0 15px #fff, 0 0 15px #fff, 0 0 15px #fff;
 
-    -webkit-transition:  0.7s ease-out;
-    -moz-transition:  0.7s ease-out ;
-    -o-transition:  0.7s ease-out ;
-    transition:  0.7s ease-out ;
+    -webkit-transition:  0.5s ease-out;
+    -moz-transition:  0.5s ease-out ;
+    -o-transition:  0.5s ease-out ;
+    transition:  0.5 s ease-out ;
 }
 
 .home .menu {
     position: absolute;
     right: 0;
-    top: -9em;
+    top: -8em;
     width: 100%;
 }
 .home .menu li {
-    width: 16.66666%;
+    width: 16.6%;
 }
 .home .menu li.left-margin {
-    margin-left: 16.6666%;
+    margin-left: 16.6%;
+
+    -webkit-transition:  0.5s ease-out;
+    -moz-transition:  0.5s ease-out ;
+    -o-transition:  0.5s ease-out ;
+    transition:  0.5 s ease-out ;
 }
 .home .menu li a {
     font-size: 20px;
@@ -206,28 +206,6 @@ body, html {
 .language a {
     color: #666;
 }
-
-/**************************************************************************************
- ABOUT US PAGE
- *************************************************************************************/
-.about-us-page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    bottom: 8em;
-    overflow: auto;
-}
-.about-us .logo {
-    width: 12%;
-}
-.about-us .text {
-    position: absolute;
-    width: 33%;
-    top: 150px;
-    left: 2%;
-}
-
 
 /**************************************************************************************
  CIRCLE
@@ -248,27 +226,4 @@ body, html {
     margin-bottom: -5em;
     z-index: 1;
 }
-.about-us .circle {
-    display: block;
-    bottom: 13em;
 
-}
-
-/**************************************************************************************
- Scrollbar
- *************************************************************************************/
-.about-us-page::-webkit-scrollbar
-{
-    width: 8px;  /* for vertical scrollbars */
-    height: 8px; /* for horizontal scrollbars */
-}
-
-.about-us-page::-webkit-scrollbar-track
-{
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.about-us-page::-webkit-scrollbar-thumb
-{
-    background: rgba(0, 0, 0, 0.5);
-}
