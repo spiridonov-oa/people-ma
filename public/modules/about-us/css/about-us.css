@@ -5,18 +5,64 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     bottom: 8em;
 }
 
-.about-us .text {
+.about-us-text {
     position: absolute;
-    width: 39%;
-    top: 150px;
+    width: 42%;
+    padding-left: 120px;
+    top: 20%;
     left: 2%;
+    font-size: 0.8em;
+}
+
+.about-us .flag {
+    width: 20%;
+    height: 45.73%;
+    position: absolute;
+    top: 0;
+    left: -50px;
+    background: url('../img/flag.png') no-repeat;
+    background-size: contain;
 }
 
 .about-us .circle {
     display: block;
-    bottom: 13em;
+    right: 0vw;
+    bottom: -10vw;
+    width: 45vw;
+    height: 45vw;
+}
+
+/**************************************************************************************
+ NG-ANIMATE
+ *************************************************************************************/
+
+[ui-view].ng-enter-active .about-us-page, [ui-view].ng-leave-active .about-us-page {
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
+}
+
+[ui-view].ng-enter .about-us-page {
+    opacity: 0;
+    top: -100%;
+}
+
+[ui-view].ng-enter-active .about-us-page {
+    opacity: 1;
+    top: 0;
+}
+
+[ui-view].ng-leave .about-us-page {
+    opacity: 1;
+    top: 0;
+}
+
+[ui-view].ng-leave-active .about-us-page {
+    opacity: 0;
+    top: -100%;
 }
