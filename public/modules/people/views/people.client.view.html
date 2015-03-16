@@ -1,0 +1,12 @@
+<section data-ng-controller="PeopleController" class="people-page" data-ng-init="find()">
+    <div class="people-bg"></div>
+
+    <div class="wrapper">
+        <div data-ng-repeat="(key, person) in people | orderBy:'order'">
+            <div class="person-position person-position-{{key}}" >
+                <div class="star"></div>
+                <div class="name" data-ng-bind="person.firstName"></div>
+            </div>
+        </div>
+    </div>
+</section>

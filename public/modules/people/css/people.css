@@ -1,0 +1,109 @@
+/**************************************************************************************
+ PROJECT PAGE
+ *************************************************************************************/
+
+.people-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 8em;
+}
+
+.person-position {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.person-position .star {
+    margin: 0 auto;
+    height: 1px;
+    width: 1px;
+    border: 4px solid #333;
+    border-radius: 50%;
+}
+.person-position .name {
+    opacity: 0;
+    margin-top: 10px;
+
+    -webkit-transition:all .2s ease-in-out;
+    -moz-transition:all .2s ease-in-out;
+    -o-transition:all .2s ease-in-out;
+    transition:all .2s ease-in-out;
+}
+.person-position:hover .name {
+    opacity: 1;
+}
+
+
+.person-position-0 {
+    top: 22%;
+    left: 12%;
+}
+
+.person-position-1 {
+    top: 52%;
+    left: 25%;
+}
+
+.person-position-2 {
+    top: 32%;
+    left: 72%;
+}
+
+.person-position-3 {
+     top: 72%;
+     left: 82%;
+}
+
+.person-position-4 {
+    top: 22%;
+    left: 82%;
+}
+
+/**************************************************************************************
+ CIRCLE
+ *************************************************************************************/
+.people .circle {
+    display: block;
+    height: 1px;
+    width: 1px;
+    bottom: 27em;
+    right: 25%;
+    margin-right: -5em;
+    margin-bottom: -5em;
+    border: 4px solid #f3c58d;
+}
+
+/**************************************************************************************
+ NG-ANIMATE
+ *************************************************************************************/
+[ui-view].ng-enter-active .people-page, [ui-view].ng-leave-active .people-page {
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
+}
+
+[ui-view].ng-enter .people-page {
+    opacity: 0;
+    top: 100%;
+}
+
+[ui-view].ng-enter-active .people-page {
+    opacity: 1;
+    top: 0;
+}
+
+[ui-view].ng-leave .people-page {
+    opacity: 1;
+    top: 0;
+}
+
+[ui-view].ng-leave-active .people-page {
+    opacity: 0;
+    top: 100%;
+}
