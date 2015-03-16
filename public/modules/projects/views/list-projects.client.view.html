@@ -1,14 +1,18 @@
-<section data-ng-controller="ProjectsController" class="projects-page" data-ng-init="find()">
+<section class="projects-page animate-page" data-ng-controller="ProjectsController">
     <div class="projects-bg"></div>
 
     <div class="wrapper">
         <div class="line">
-            <projects type="commerce"></projects>
-            <div class="projects-type">Commerce</div>
+            <div class="projects-type table-cell">Commerce</div>
+            <div class="table-cell">
+                <projects type="commerce"></projects>
+            </div>
         </div>
         <div class="line">
-            <projects type="live"></projects>
-            <div class="projects-type">Live</div>
+            <div class="projects-type table-cell">Live</div>
+            <div class="table-cell">
+                <projects type="live"></projects>
+            </div>
         </div>
     </div>
 </section>
