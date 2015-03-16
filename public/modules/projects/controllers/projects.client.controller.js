@@ -45,12 +45,12 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$rootSco
             },
             {
                 name: 'Project live 2',
-                image: 'img/projects/icons_project/projects_live/icons1.jpg',
+                image: 'img/projects/icons_project/projects_live/1icons.jpg',
                 position: 2
             },
             {
                 name: 'Project live 3',
-                image: 'img/projects/icons_project/projects_live/icons2.jpg',
+                image: 'img/projects/icons_project/projects_live/2icons.jpg',
                 position: 3
             }
         ];
