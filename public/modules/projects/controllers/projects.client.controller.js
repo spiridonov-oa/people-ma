@@ -9,6 +9,56 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$rootSco
             return $state.current.name;
         };
 
+        var projects = {};
+        projects.commerce = [
+            {
+                name: 'Project 1',
+                image: 'img/projects/icons_project/projects_commerce/3icons.jpg',
+                position: 1
+            },
+            {
+                name: 'Project 2',
+                image: 'img/projects/icons_project/projects_commerce/4icons.jpg',
+                position: 2
+            },
+            {
+                name: 'Project 3',
+                image: 'img/projects/icons_project/projects_commerce/5icons.jpg',
+                position: 3
+            },
+            {
+                name: 'Project 4',
+                image: 'img/projects/icons_project/projects_commerce/6icons.jpg',
+                position: 4
+            },
+            {
+                name: 'Project 5',
+                image: 'img/projects/icons_project/projects_commerce/7icons.jpg',
+                position: 5
+            }
+        ];
+        projects.live = [
+            {
+                name: 'Project live 1',
+                image: 'img/projects/icons_project/projects_live/icons.jpg',
+                position: 1
+            },
+            {
+                name: 'Project live 2',
+                image: 'img/projects/icons_project/projects_live/icons1.jpg',
+                position: 2
+            },
+            {
+                name: 'Project live 3',
+                image: 'img/projects/icons_project/projects_live/icons2.jpg',
+                position: 3
+            }
+        ];
+
+        $scope.projectsList = projects;
+
+
+
 		// Create new Project
 		$scope.create = function() {
 			// Create new Project object
