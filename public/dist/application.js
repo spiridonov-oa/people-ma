@@ -44,6 +44,10 @@ angular.element(document).ready(function() {
 'use strict';
 
 // Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('about-us');
+'use strict';
+
+// Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('architectors');
 'use strict';
 
@@ -66,6 +70,41 @@ ApplicationConfiguration.registerModule('projects');
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');
+'use strict';
+
+// Configuring the Articles module
+angular.module('about-us').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+        Menus.addMenuItem('mainmenu', 'About Us', 'about-us', 'left-margin', '/about-us', true, null, 3);
+	}
+]);
+'use strict';
+
+//Setting up route
+angular.module('about-us').config(['$stateProvider',
+	function($stateProvider) {
+		// Projects state routing
+		$stateProvider.
+		state('about-us', {
+			url: '/about-us',
+			templateUrl: 'modules/about-us/views/about-us.client.view.html'
+		})
+	}
+]);
+'use strict';
+
+// Projects controller
+angular.module('about-us').controller('AboutUsController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication',
+	function($scope, $rootScope, $stateParams, $state, $location, Authentication) {
+		$scope.authentication = Authentication;
+
+        $rootScope.stateName = function () {
+            return $state.current.name;
+        };
+
+	}
+]);
 'use strict';
 
 // Configuring the Articles module
@@ -295,11 +334,7 @@ angular.module('articles').factory('Articles', ['$resource',
 angular.module('core').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
-        Menus.addMenu('mainmenu', true);
-
         Menus.addMenuItem('mainmenu', 'Concept', 'concept', 'dropdown', '/concept', true, null, 2);
-
-        Menus.addMenuItem('mainmenu', 'About Us', 'about-us', 'left-margin', '/about', true, null, 3);
 
         Menus.addMenuItem('mainmenu', 'News', 'news', 'dropdown', '/news', true, null, 5);
 	}
@@ -318,14 +353,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
 		}).
-        state('about-us', {
-            url: '/about-us',
-            templateUrl: 'modules/core/views/about-us.client.view.html'
-        }).
-        state('people', {
-            url: '/people',
-            templateUrl: 'modules/core/views/people.client.view.html'
-        }).
         state('news', {
             url: '/news',
             templateUrl: 'modules/core/views/people.client.view.html'
@@ -562,8 +589,10 @@ angular.module('core').service('Menus', [
 			return this.menus[menuId];
 		};
 
-		//Adding the topbar menu
+		//Adding the mainmenu menu
 		this.addMenu('topbar');
+
+        this.addMenu('mainmenu', true);
 	}
 ]);
 'use strict';
@@ -582,7 +611,7 @@ angular.module('people').config(['$stateProvider',
 	function($stateProvider) {
 		// People state routing
 		$stateProvider.
-		state('People', {
+		state('people', {
 			url: '/people',
 			templateUrl: 'modules/people/views/people.client.view.html'
 		}).
@@ -603,71 +632,21 @@ angular.module('people').config(['$stateProvider',
 'use strict';
 
 // People controller
-angular.module('people').controller('PeopleController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication', 'People',
-	function($scope, $rootScope, $stateParams, $state, $location, Authentication, People) {
+angular.module('people').controller('PeopleController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication',
+	function($scope, $rootScope, $stateParams, $state, $location, Authentication) {
 		$scope.authentication = Authentication;
 
         $rootScope.stateName = function () {
             return $state.current.name;
         };
 
-		// Create new Project
-		$scope.create = function() {
-			// Create new Project object
-			var project = new People ({
-				name: this.name
-			});
+        $scope.people = [
+                {firstName: "Alla", secondName: "Micheeva", img: "img/1.jpg", order: 1},
+                {firstName: "Nina", secondName: "Micheeva", img: "img/1.jpg", order: 2},
+                {firstName: "Zoya", secondName: "Micheeva", img: "img/1.jpg", order: 4},
+                {firstName: "Liza", secondName: "Micheeva", img: "img/1.jpg", order: 3}
+            ];
 
-			// Redirect after save
-			project.$save(function(response) {
-				$location.path('people/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Remove existing Project
-		$scope.remove = function(project) {
-			if ( project ) {
-				project.$remove();
-
-				for (var i in $scope.people) {
-					if ($scope.people [i] === project) {
-						$scope.people.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.project.$remove(function() {
-					$location.path('people');
-				});
-			}
-		};
-
-		// Update existing Project
-		$scope.update = function() {
-			var project = $scope.project;
-
-			project.$update(function() {
-				$location.path('people/' + project._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Find a list of People
-		$scope.find = function() {
-			$scope.people = People.query();
-		};
-
-		// Find existing Project
-		$scope.findOne = function() {
-			$scope.project = People.get({
-				projectId: $stateParams.projectId
-			});
-		};
 	}
 ]);
 'use strict';
@@ -771,6 +750,56 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$rootSco
             return $state.current.name;
         };
 
+        var projects = {};
+        projects.commerce = [
+            {
+                name: 'Project 1',
+                image: 'img/projects/icons_project/projects_commerce/icons.png',
+                position: 1
+            },
+            {
+                name: 'Project 2',
+                image: 'img/projects/icons_project/projects_commerce/icons1.png',
+                position: 2
+            },
+            {
+                name: 'Project 3',
+                image: 'img/projects/icons_project/projects_commerce/icons3.png',
+                position: 3
+            },
+            {
+                name: 'Project 4',
+                image: 'img/projects/icons_project/projects_commerce/icons4.png',
+                position: 4
+            },
+            {
+                name: 'Project 5',
+                image: 'img/projects/icons_project/projects_commerce/icons5.png',
+                position: 5
+            }
+        ];
+        projects.live = [
+            {
+                name: 'Project live 1',
+                image: 'img/projects/icons_project/projects_live/icons.png',
+                position: 1
+            },
+            {
+                name: 'Project live 2',
+                image: 'img/projects/icons_project/projects_live/icons1.png',
+                position: 2
+            },
+            {
+                name: 'Project live 3',
+                image: 'img/projects/icons_project/projects_live/icons2.png',
+                position: 3
+            }
+        ];
+
+        $scope.projectsList = projects;
+
+
+
 		// Create new Project
 		$scope.create = function() {
 			// Create new Project object
@@ -837,36 +866,10 @@ angular.module('projects').directive('projects',
         return {
             restrict: 'AE',
             replace: true,
-            scope: '=',
+            scope:  {set: '='},
             templateUrl: 'modules/projects/directives/template/projects.view.html',
             link: function (scope, element, attrs) {
-                scope.projects = [
-                    {
-                        name: 'Project 1',
-                        image: '/img/projects/no-image.jpg',
-                        position: 1
-                    },
-                    {
-                        name: 'Project 2',
-                        image: '/img/projects/no-image.jpg',
-                        position: 2
-                    },
-                    {
-                        name: 'Project 3',
-                        image: '/img/projects/no-image.jpg',
-                        position: 3
-                    },
-                    {
-                        name: 'Project 4',
-                        image: '/img/projects/no-image.jpg',
-                        position: 4
-                    },
-                    {
-                        name: 'Project 5',
-                        image: '/img/projects/no-image.jpg',
-                        position: 5
-                    }
-                ];
+
             }
         };
     }

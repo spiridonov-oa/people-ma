@@ -5,60 +5,55 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$rootSco
 	function($scope, $rootScope, $stateParams, $state, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
 
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
-
         var projects = {};
         projects.commerce = [
             {
                 name: 'Project 1',
-                image: 'img/projects/icons_project/projects_commerce/3icons.jpg',
+                image: 'img/projects/icons_project/projects_commerce/icons.png',
                 position: 1
             },
             {
                 name: 'Project 2',
-                image: 'img/projects/icons_project/projects_commerce/4icons.jpg',
+                image: 'img/projects/icons_project/projects_commerce/icons1.png',
                 position: 2
             },
             {
                 name: 'Project 3',
-                image: 'img/projects/icons_project/projects_commerce/5icons.jpg',
+                image: 'img/projects/icons_project/projects_commerce/icons3.png',
                 position: 3
             },
             {
                 name: 'Project 4',
-                image: 'img/projects/icons_project/projects_commerce/6icons.jpg',
+                image: 'img/projects/icons_project/projects_commerce/icons4.png',
                 position: 4
             },
             {
                 name: 'Project 5',
-                image: 'img/projects/icons_project/projects_commerce/7icons.jpg',
+                image: 'img/projects/icons_project/projects_commerce/icons5.png',
                 position: 5
             }
         ];
         projects.live = [
             {
                 name: 'Project live 1',
-                image: 'img/projects/icons_project/projects_live/icons.jpg',
+                image: 'img/projects/icons_project/projects_live/icons.png',
                 position: 1
             },
             {
                 name: 'Project live 2',
-                image: 'img/projects/icons_project/projects_live/1icons.jpg',
+                image: 'img/projects/icons_project/projects_live/icons1.png',
                 position: 2
             },
             {
                 name: 'Project live 3',
-                image: 'img/projects/icons_project/projects_live/2icons.jpg',
+                image: 'img/projects/icons_project/projects_live/icons2.png',
                 position: 3
             }
         ];
 
         $scope.projectsList = projects;
 
-
-
+        
 		// Create new Project
 		$scope.create = function() {
 			// Create new Project object
