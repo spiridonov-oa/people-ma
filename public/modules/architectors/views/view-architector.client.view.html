@@ -1,0 +1,24 @@
+<section data-ng-controller="ArchitectorsController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="architector.name"></h1>
+	</div>
+    <div class="page-content">
+        <p data-ng-bind="architector.position"></p>
+    </div>
+	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == architector.user._id))">
+		<a class="btn btn-primary" href="/#!/architectors/{{architector._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="remove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Posted on
+			<span data-ng-bind="architector.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="architector.user.displayName"></span>
+		</em>
+	</small>
+</section>
