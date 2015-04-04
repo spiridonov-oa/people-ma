@@ -57,7 +57,7 @@ ApplicationConfiguration.registerModule('articles');
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');
-ApplicationConfiguration.registerModule('projects');
+
 'use strict';
 
 // Use applicaion configuration module to register a new module
@@ -89,22 +89,20 @@ angular.module('about-us').config(['$stateProvider',
 		state('about-us', {
 			url: '/about-us',
 			templateUrl: 'modules/about-us/views/about-us.client.view.html'
-		})
+		});
 	}
 ]);
+
 'use strict';
 
 // Projects controller
-angular.module('about-us').controller('AboutUsController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication',
-	function($scope, $rootScope, $stateParams, $state, $location, Authentication) {
+angular.module('about-us').controller('AboutUsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication',
+	function($scope, $stateParams, $state, $location, Authentication) {
 		$scope.authentication = Authentication;
-
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
 
 	}
 ]);
+
 'use strict';
 
 // Configuring the Articles module
@@ -358,19 +356,12 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             templateUrl: 'modules/core/views/people.client.view.html'
         });
 	}
-]);
-'use strict';
+]).run(["$rootScope", "$state", function ($rootScope, $state) {
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+        $state.previous = fromState;
+    });
+}]);
 
-angular.module('core').controller('AboutUsController', ['$scope', '$state', '$rootScope','Authentication',
-	function($scope, $state, $rootScope,  Authentication) {
-		// This provides Authentication context.
-		$scope.authentication = Authentication;
-
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
-
-    }]);
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
@@ -391,29 +382,14 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 ]);
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', '$state', '$rootScope', 'Authentication',
-	function($scope, $state, $rootScope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', '$state', 'Authentication',
+	function($scope, $state, Authentication) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
-
 	}
 ]);
-'use strict';
 
-angular.module('core').directive('circle',
-    function () {
-        return {
-            restrict: 'AE',
-            templateUrl: 'modules/core/directives/template/circle.view.html',
-            link: function (scope) {
-                //$(element).imageLens({ lensSize: 200 });
-            }
-    };
-});
 'use strict';
 
 angular.module('core').directive('mainmenu', ['Menus',
@@ -427,6 +403,32 @@ angular.module('core').directive('mainmenu', ['Menus',
             }
     };
 }]);
+'use strict';
+
+angular.module('core').directive('stateClass', ['$state', '$rootScope', function ($state, $rootScope) {
+
+    function link (scope, element, attrs) {
+        function stateChangeStartHandler (e, toState, toParams, fromState, fromParams) {
+            scope.body = scope.body || {};
+
+            if(fromState.name) {
+                scope.body.class = fromState.name + '-' + toState.name + ' ' + toState.name;
+            } else {
+                scope.body.class =  toState.name;
+            }
+
+            //console.log('scope.body.class: ' + scope.body.class);
+        }
+
+        $rootScope.$on('$stateChangeStart', stateChangeStartHandler);
+    }
+
+    return {
+        restrict: 'AE',
+        link: link
+    };
+}]);
+
 'use strict';
 
 //Menu service used for managing  menus
@@ -632,23 +634,20 @@ angular.module('people').config(['$stateProvider',
 'use strict';
 
 // People controller
-angular.module('people').controller('PeopleController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication',
-	function($scope, $rootScope, $stateParams, $state, $location, Authentication) {
+angular.module('people').controller('PeopleController', ['$scope', '$stateParams', '$state', '$location', 'Authentication',
+	function($scope, $stateParams, $state, $location, Authentication) {
 		$scope.authentication = Authentication;
 
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
-
         $scope.people = [
-                {firstName: "Alla", secondName: "Micheeva", img: "img/1.jpg", order: 1},
-                {firstName: "Nina", secondName: "Micheeva", img: "img/1.jpg", order: 2},
-                {firstName: "Zoya", secondName: "Micheeva", img: "img/1.jpg", order: 4},
-                {firstName: "Liza", secondName: "Micheeva", img: "img/1.jpg", order: 3}
-            ];
+            {firstName: "Alla", secondName: "Micheeva", img: "img/1.jpg", order: 1},
+            {firstName: "Nina", secondName: "Micheeva", img: "img/1.jpg", order: 2},
+            {firstName: "Zoya", secondName: "Micheeva", img: "img/1.jpg", order: 4},
+            {firstName: "Liza", secondName: "Micheeva", img: "img/1.jpg", order: 3}
+        ];
 
 	}
 ]);
+
 'use strict';
 
 angular.module('people').directive('people',
@@ -742,13 +741,9 @@ angular.module('projects').config(['$stateProvider',
 'use strict';
 
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$rootScope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-	function($scope, $rootScope, $stateParams, $state, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
+	function($scope, $stateParams, $state, $location, Authentication, Projects) {
 		$scope.authentication = Authentication;
-
-        $rootScope.stateName = function () {
-            return $state.current.name;
-        };
 
         var projects = {};
         projects.commerce = [
@@ -859,6 +854,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$rootSco
 		};
 	}
 ]);
+
 'use strict';
 
 angular.module('projects').directive('projects',
