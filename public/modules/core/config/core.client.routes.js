@@ -17,4 +17,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             templateUrl: 'modules/core/views/people.client.view.html'
         });
 	}
-]);
+]).run(function ($rootScope, $state) {
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+        $state.previous = fromState;
+    });
+});
