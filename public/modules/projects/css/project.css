@@ -36,7 +36,7 @@
     text-align: right;
 }
 
-.projects-line {
+.projects-line-holder {
     position: relative;
     border-left: 1px dashed #333;
     overflow: hidden;
@@ -49,7 +49,7 @@
 
 .wire {
     position: absolute;
-    top: 30px;
+    top: 33px;
     left: 0;
     width: 100%;
     border-top: 1px solid #666666;
@@ -59,32 +59,31 @@
 .project-item {
     margin-left: -5px;
     display: inline-block;
-    height: 66px;
-    margin-top: 3px;
+    min-height: 66px;
+    min-width: 66px;
+    text-align: center;
 }
 
 .project-item ~ .project-item {
-    margin-left: 6%;
+    margin-left: 5em;
 }
 
 .project-icon {
     width: 60px;
     height: 60px;
+    margin: 3px auto;
     border: 1px solid #333;
     border-radius: 50%;
     overflow: hidden;
     background: #aaa;
 
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
+
 }
 
 .project-icon:hover {
     width: 66px;
     height: 66px;
-    margin: -3px;
+    margin: 0 auto;
 }
 
 .project-icon img{
@@ -109,30 +108,49 @@
  NG-ANIMATE
  *************************************************************************************/
 
-[ui-view].ng-enter-active .projects-page, [ui-view].ng-leave-active .projects-page {
-    -webkit-transition:all 1s ease-in-out;
-    -moz-transition:all 1s ease-in-out;
-    -o-transition:all 1s ease-in-out;
-    transition:all 1s ease-in-out;
+[ui-view].ng-enter .projects-page,
+[ui-view].ng-leave .projects-page {
+    -webkit-transition:opacity 1s ease-in-out;
+    -moz-transition:opacity 1s ease-in-out;
+    -o-transition:opacity 1s ease-in-out;
+    transition:opacity 1s ease-in-out;
 }
 
 [ui-view].ng-enter .projects-page {
-    left: 100%;
+    opacity: 0;
 }
 
 [ui-view].ng-enter-active .projects-page {
-    left: 0;
+    opacity: 1;
 }
 
 [ui-view].ng-leave .projects-page {
-     left: 0;
+    opacity: 1;
 }
 
+[ui-view].ng-leave-active .projects-page {
+    opacity: 0;
+}
+
+/* remove bg */
 [ui-view].ng-leave .projects-page .projects-bg {
     z-index: -4;
 }
 
-[ui-view].ng-leave-active .projects-page {
-    left: 100%;
+
+
+[ui-view].ng-enter-active .projects-page .projects-line,
+[ui-view].ng-leave-active .projects-page .projects-line{
+    -webkit-transition:all 1s ease-in-out 1s;
+    -moz-transition:all 1s ease-in-out 1s;
+    -o-transition:all 1s ease-in-out 1s;
+    transition:all 1s ease-in-out 1s;
 }
 
+[ui-view].ng-enter .projects-page .projects-line{
+    margin-left: -100%;
+}
+
+[ui-view].ng-enter-active .projects-page .projects-line {
+    margin-left: 0;
+}

@@ -30,7 +30,7 @@
 
 .about-us .circle {
     display: block;
-    right: 0vw;
+    right: 0;
     bottom: -10vw;
     width: 45vw;
     height: 45vw;
@@ -39,13 +39,6 @@
 /**************************************************************************************
  NG-ANIMATE
  *************************************************************************************/
-
-[ui-view].ng-enter-active .about-us-page, [ui-view].ng-leave-active .about-us-page {
-    -webkit-transition:all 1s ease-in-out;
-    -moz-transition:all 1s ease-in-out;
-    -o-transition:all 1s ease-in-out;
-    transition:all 1s ease-in-out;
-}
 
 [ui-view].ng-enter .about-us-page {
     opacity: 0;

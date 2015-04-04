@@ -12,7 +12,7 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
                 scope.body.class =  toState.name;
             }
 
-            console.log('scope.body.class: ' + scope.body.class);
+            //console.log('scope.body.class: ' + scope.body.class);
         }
 
         $rootScope.$on('$stateChangeStart', stateChangeStartHandler);
@@ -20,7 +20,6 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
 
     return {
         restrict: 'AE',
-        template: '',
         link: link
     };
 }]);

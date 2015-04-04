@@ -14,7 +14,7 @@
 
 @font-face {
     font-family: Gothic;
-    src: url(../fonts/CenturyGothicRegular.TTF);
+    src: url(../fonts/CenturyGothicRegular.ttf) format('truetype');
 }
 
 .uppercase {
@@ -271,18 +271,35 @@ body, html {
     transition:all 1s ease-in-out;
 }
 [ui-view].ng-enter .home-page {
-    top: 100%;
+    left: 100%;
 }
 
 [ui-view].ng-enter-active .home-page {
-    top: 0;
+    left: 0;
 }
 
 [ui-view].ng-leave .home-page {
-    top: 0;
+    left: 0;
 }
 
 [ui-view].ng-leave-active .home-page {
-    top: 100%;
+    left: 100%;
 }
 
+/**************************************************************************************
+ NG-ANIMATE = Home --> Projects, Concepts
+ *************************************************************************************/
+
+/*
+.projects [ui-view].ng-leave .home-page,
+.concept [ui-view].ng-leave .home-page {
+    top: 0;
+    left: 0;
+}
+
+.projects [ui-view].ng-leave-active .home-page,
+.concept [ui-view].ng-leave-active .home-page {
+    top: 0;
+    left: 100%;
+}
+        */
