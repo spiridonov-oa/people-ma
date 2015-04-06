@@ -101,20 +101,15 @@
     right: 23%;
     height: 10em;
     width: 10em;
+    margin-right: -5em;
+    margin-bottom: -5em;
 }
 
 
 /**************************************************************************************
  NG-ANIMATE
  *************************************************************************************/
-
-[ui-view].ng-enter .projects-page,
-[ui-view].ng-leave .projects-page {
-    -webkit-transition:opacity 1s ease-in-out;
-    -moz-transition:opacity 1s ease-in-out;
-    -o-transition:opacity 1s ease-in-out;
-    transition:opacity 1s ease-in-out;
-}
+/*
 
 [ui-view].ng-enter .projects-page {
     opacity: 0;
@@ -131,26 +126,28 @@
 [ui-view].ng-leave-active .projects-page {
     opacity: 0;
 }
+*/
 
 /* remove bg */
+/*
+
 [ui-view].ng-leave .projects-page .projects-bg {
     z-index: -4;
 }
 
-
-
-[ui-view].ng-enter-active .projects-page .projects-line,
-[ui-view].ng-leave-active .projects-page .projects-line{
-    -webkit-transition:all 1s ease-in-out 1s;
-    -moz-transition:all 1s ease-in-out 1s;
-    -o-transition:all 1s ease-in-out 1s;
-    transition:all 1s ease-in-out 1s;
+[ui-view].ng-enter-active .projects-page .projects-line-holder,
+[ui-view].ng-leave-active .projects-page .projects-line-holder{
+    -webkit-transition:all 1s ease-in-out 5s;
+    -moz-transition:all 1s ease-in-out 5s;
+    -o-transition:all 1s ease-in-out 5s;
+    transition:all 1s ease-in-out 5s;
 }
 
-[ui-view].ng-enter .projects-page .projects-line{
+[ui-view].ng-enter .projects-page .projects-line-holder {
     margin-left: -100%;
 }
 
-[ui-view].ng-enter-active .projects-page .projects-line {
+[ui-view].ng-enter-active .projects-page .projects-line-holder {
     margin-left: 0;
 }
+*/

@@ -218,10 +218,10 @@ body, html {
     border-radius: 50%;
     z-index: 1;
 
-    -webkit-transition:  1s ease-out;
-    -moz-transition:  1s ease-out ;
-    -o-transition:  1s ease-out ;
-    transition:  1s ease-out ;
+    -webkit-transition: top 0.3s ease-out, left 0.3s ease-out 0.3s;
+    -moz-transition: top 0.3s ease-out, left 0.3s ease-out 0.3s;
+    -o-transition: top 0.3s ease-out, left 0.3s ease-out 0.3s;
+    transition: top 0.3s ease-out, left 0.3s ease-out 0.3s;
 }
 .home .circle {
     display: block;
@@ -239,8 +239,6 @@ body, html {
  NG-ANIMATE
  *************************************************************************************/
 
-
-
 [ui-view] {
     position: absolute;
     top:0;
@@ -251,55 +249,85 @@ body, html {
 
 .animate-page {
     position: absolute;
-    top:0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
 
-[ui-view].ng-enter, [ui-view].ng-leave {
-    -webkit-transition:all 1s ease-in-out 1s;
-    -moz-transition:all 1s ease-in-out 1s;
-    -o-transition:all 1s ease-in-out 1s;
-    transition:all 1s ease-in-out 1s;
+[ui-view].ng-enter,
+[ui-view].ng-leave {
+    -webkit-transition:all 10s ease-in-out;
+    -moz-transition:all 10s ease-in-out;
+    -o-transition:all 10s ease-in-out;
+    transition:all 10s ease-in-out;
 }
 
-[ui-view].ng-enter-active .home-page, [ui-view].ng-leave-active .home-page {
-    -webkit-transition:all 1s ease-in-out;
-    -moz-transition:all 1s ease-in-out;
-    -o-transition:all 1s ease-in-out;
-    transition:all 1s ease-in-out;
-}
-[ui-view].ng-enter .home-page {
-    left: 100%;
+[ui-view].ng-enter .animate-page,
+[ui-view].ng-leave .animate-page {
+    -webkit-transition:all 0.5s ease-in-out;
+    -moz-transition:all 0.5s ease-in-out;
+    -o-transition:all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out;
 }
 
-[ui-view].ng-enter-active .home-page {
-    left: 0;
+[ui-view].ng-enter .animate-page,
+[ui-view].ng-leave.ng-leave-active .animate-page {
+    opacity: 0;
 }
 
-[ui-view].ng-leave .home-page {
-    left: 0;
+[ui-view].ng-enter.ng-enter-active .animate-page,
+[ui-view].ng-leave .animate-page {
+    opacity: 1;
 }
 
-[ui-view].ng-leave-active .home-page {
-    left: 100%;
-}
 
 /**************************************************************************************
- NG-ANIMATE = Home --> Projects, Concepts
+ NG-ANIMATE = Home --> Projects, Home --> Concepts
  *************************************************************************************/
 
-/*
-.projects [ui-view].ng-leave .home-page,
-.concept [ui-view].ng-leave .home-page {
+.from-projects.home [ui-view].ng-enter .animate-page,
+.from-home.projects [ui-view].ng-leave.ng-leave-active .animate-page,
+.from-concept.home [ui-view].ng-enter .animate-page,
+.from-home.concept [ui-view].ng-leave.ng-leave-active .animate-page{
+    top: 0;
+    left: 100%;
+}
+
+.from-projects.home [ui-view].ng-enter.ng-enter-active .animate-page,
+.from-home.projects [ui-view].ng-leave .animate-page,
+.from-concept.home [ui-view].ng-enter.ng-enter-active .animate-page,
+.from-home.concept [ui-view].ng-leave .animate-page{
     top: 0;
     left: 0;
 }
 
-.projects [ui-view].ng-leave-active .home-page,
-.concept [ui-view].ng-leave-active .home-page {
-    top: 0;
-    left: 100%;
+.projects [ui-view].ng-enter .projects-page {
+
+    -webkit-transition:all 0.5s ease-in-out 0.6s;
+    -moz-transition:all 0.5s ease-in-out 0.6s;
+    -o-transition:all 0.5s ease-in-out 0.6s;
+    transition:all 0.5s ease-in-out 0.6s;
 }
-        */
+
+.projects [ui-view].ng-enter .projects-page {
+    opacity: 0;
+}
+
+.projects [ui-view].ng-enter.ng-enter-active .projects-page {
+    opacity: 1;
+}
+
+
+
+.home-projects .circle{
+    -webkit-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
+    -moz-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
+    -o-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
+    transition: bottom 0.3s linear, right 0.3s linear 0.3s;
+}
+
+.projects-home .circle{
+    -webkit-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
+    -moz-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
+    -o-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
+    transition: right 0.3s linear, bottom 0.3s linear 0.3s;
+}

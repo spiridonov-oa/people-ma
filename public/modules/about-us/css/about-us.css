@@ -40,22 +40,14 @@
  NG-ANIMATE
  *************************************************************************************/
 
-[ui-view].ng-enter .about-us-page {
-    opacity: 0;
-    top: -100%;
-}
-
-[ui-view].ng-enter-active .about-us-page {
-    opacity: 1;
-    top: 0;
-}
-
-[ui-view].ng-leave .about-us-page {
-    opacity: 1;
-    top: 0;
-}
-
+[ui-view].ng-enter .about-us-page,
 [ui-view].ng-leave-active .about-us-page {
     opacity: 0;
     top: -100%;
+}
+
+[ui-view].ng-enter-active .about-us-page,
+[ui-view].ng-leave .about-us-page {
+    opacity: 1;
+    top: 0;
 }
