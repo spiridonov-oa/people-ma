@@ -5,24 +5,83 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
     function animation (element, fromState, toState) {
         var state = '';
         var animationTime = 1000;
+        var $body = jQuery(element);
+        var $circle = $body.find('.circle');
+        var states = {
+            projects: 'projects',
+            home: 'home'
+        };
+
+        var vw = jQuery(window).width()/100;
+        var vh = jQuery(window).height()/100;
+
         if (fromState.name) {
             state += fromState.name + '-';
         }
         state += toState.name;
 
-        switch(state) {
-            case 'home':
+        switch(toState.name) {
+            case states.home:
                 homeAnimation(fromState);
                 break;
+            case states.projects:
+                projectsAnimation(fromState);
+                break;
+        }
+
+        function homeAnimation (prevState) {
+            if (prevState.name == states.projects && prevState.name == states.projects) {
+                $circle.animate({
+                    right: '58%'
+                }, animationTime/2).animate({
+                    bottom: '0'
+                }, animationTime/2);
+            } else {
+                $circle.animate({
+                    right: '58%',
+                    bottom: '0'
+                }, animationTime);
+            }
+
+            var $homePage = $body.find('.' + states.name + '-page');
+            $homePage.css('left', 0);
+            $homePage.animate({
+                left: '100%'
+            }, animationTime);
+            console.log('homeAnimation');
 
         }
 
-        function homeAnimation () {
-            element.css('opacity', 0);
-            jQuery(element).animate({
+        function projectsAnimation (prevState){
+            if (prevState.name === states.home) {
+                $circle.animate({
+                    bottom: '60%'
+                }, animationTime/2).animate({
+                    right: '10%'
+                }, animationTime/2);
+            } else {
+                $circle.animate({
+                    bottom: '60%',
+                    right: '10%'
+                }, animationTime);
+            }
+
+            var $projectsPage = $body.find('.' + states.projects + '-page');
+            $projectsPage.css('opacity', 0);
+            $projectsPage.animate({
                 opacity: 1
-            }, animationTime);
-            console.log('homeAnimation');
+            }, animationTime * 3);
+            console.log('projectsAnimation');
+
+
+        }
+
+        function resizeWindow() {
+            var screenWidth = window.outerWidth();
+            var screenHeight = window.outerHeight();
+            if (screenWidth / screenHeight > 2) {
+                $body.width(screenWidth / 2);
+            }
         }
     }
 

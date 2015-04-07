@@ -167,7 +167,7 @@ body, html {
     -webkit-transition:  0.5s ease-out;
     -moz-transition:  0.5s ease-out ;
     -o-transition:  0.5s ease-out ;
-    transition:  0.5 s ease-out ;
+    transition:  0.5s ease-out ;
 }
 
 .home .menu {
@@ -185,7 +185,7 @@ body, html {
     -webkit-transition:  0.5s ease-out;
     -moz-transition:  0.5s ease-out ;
     -o-transition:  0.5s ease-out ;
-    transition:  0.5 s ease-out ;
+    transition:  0.5s ease-out ;
 }
 .home .menu li a {
     font-size: 20px;
@@ -226,12 +226,9 @@ body, html {
 .home .circle {
     display: block;
     right: 58%;
-    bottom: 5em;
+    bottom: 0;
     height: 10em;
     width: 10em;
-    margin-right: -5em;
-    margin-bottom: -5em;
-
 }
 
 
