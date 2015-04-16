@@ -1,0 +1,42 @@
+<div class="admin-page admin-projects"  data-ng-controller="AdminController">
+    <div class="page-wrapper">
+        <h1>Admin panel</h1>
+        <admin-menu></admin-menu>
+        <div class="list">
+            <ul>
+               <li ng-repeat="pr in projects"></li>
+            </ul>
+        </div>
+        <div class="form">
+            <form name="articleForm" class="form-horizontal" data-ng-submit="project.create()" novalidate>
+                <fieldset>
+                    <div class="input-group" ng-class="{ 'has-error': articleForm.title.$dirty && articleForm.title.$invalid }">
+                        <label class="input-group-addon" for="name">Name</label>
+                        <input name="name" data-ng-model="project.new.name" id="name" class="form-control" placeholder="Name" required  type="text">
+                    </div>
+                    <div class="textarea-group">
+                        <textarea name="description" data-ng-model="project.new.description" id="description" class="form-control" cols="30" rows="5" placeholder="Description"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="photoset">Photoset</label>
+                        <input name="photoset" data-ng-model="project.new.photoset" id="photoset" class="form-control" placeholder="Photoset" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="tags">Tags</label>
+                        <input name="tags" data-ng-model="project.new.tags" id="tags" class="form-control" placeholder="tags" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="order">Order</label>
+                        <input name="order" data-ng-model="project.new.order" id="order" class="form-control"  placeholder="tags">
+                    </div>
+                    <div class="input-group">
+                        <input type="submit" class="btn btn-default">
+                    </div>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

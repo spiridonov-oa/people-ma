@@ -1,0 +1,62 @@
+body .logo {
+    display: none;
+}
+
+body {
+
+}
+
+.admin-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 8em;
+    overflow-y: scroll;
+}
+
+.admin-page .page-wrapper {
+    max-width: 1366px;
+
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.admin-page h1 {
+    padding: 15px 0;
+
+}
+.admin-page .admin-menu {
+    float: left;
+    width: 200px;
+    margin-right: -200px;
+}
+
+.admin-page .list {
+    padding: 10px;
+    float: left;
+    margin-left: 200px;
+    margin-right: 430px;
+}
+
+.admin-page .form {
+    padding: 0 30px;
+    float: left;
+    width: 400px;
+    margin-left: -430px;
+}
+
+.form .input-group {
+    margin-bottom: 10px;
+}
+
+.form .textarea-group {
+    margin-bottom: 10px;
+}
+.form .textarea {
+    max-width: 340px;
+}
+
+.form .input-group-addon {
+    min-width: 100px;
+}
