@@ -4,8 +4,8 @@
 angular.module('concepts').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Concepts', 'concepts', 'dropdown', '/concepts(/create)?');
-		Menus.addSubMenuItem('topbar', 'concepts', 'List Concepts', 'concepts');
-		Menus.addSubMenuItem('topbar', 'concepts', 'New Concept', 'concepts/create');
+		Menus.addMenuItem('admin-menu', 'Concepts', 'concepts', 'dropdown', '/concepts(/create)?');
+		Menus.addSubMenuItem('admin-menu', 'concepts', 'List Concepts', 'concepts');
+		Menus.addSubMenuItem('admin-menu', 'concepts', 'New Concept', 'concepts/create');
 	}
 ]);

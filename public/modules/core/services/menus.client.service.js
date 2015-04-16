@@ -161,7 +161,7 @@ angular.module('core').service('Menus', [
 		};
 
 		//Adding the mainmenu menu
-		this.addMenu('topbar');
+		this.addMenu('admin-menu');
 
         this.addMenu('mainmenu', true);
 	}
