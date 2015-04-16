@@ -2,12 +2,12 @@
 
 module.exports = {
 	port: 443,
-	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/people-ma',
+	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://heroku_app34450629:avdmrvdmage3knrqtt0l754ba9@ds049211.mongolab.com:49211/heroku_app34450629',
 	assets: {
 		lib: {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.min.js',

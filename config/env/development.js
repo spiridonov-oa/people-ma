@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/people-ma',
+	db: 'mongodb://heroku_app34450629:avdmrvdmage3knrqtt0l754ba9@ds049211.mongolab.com:49211/heroku_app34450629',
 	app: {
 		title: 'Peopla-ma - Development Environment'
 	},
