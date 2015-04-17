@@ -1,0 +1,18 @@
+{
+  "name":"people-ma",
+  "scripts":{},
+  "env":{
+    "NODE_ENV":{
+      "required":true
+    },
+    "NODE_MODULES_CACHE":{
+      "required":true
+    },
+    "MONGOLAB_URI":{
+      "required":true
+    }
+  },
+  "addons":[
+    "mongolab"
+  ]
+}
