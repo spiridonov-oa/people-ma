@@ -9,17 +9,17 @@ angular.module('admin').controller('AdminController', ['$scope', '$state', 'Auth
 
         $scope.project.create = function() {
             var project = new Projects({
-                name: this.new.name,
-                times: this.new.times,
-                description: this.new.description,
-                tags: this.new.tags,
-                photoset: this.new.photoset,
-                order: this.new.order
+                name: this.data.name,
+                times: this.data.times,
+                description: this.data.description,
+                tags: this.data.tags,
+                photos: [],
+                order: this.data.order
             });
             project.$save(function(response) {
                 $location.path('admin/projects/');
 
-                $scope.project.new = {};
+                $scope.project.data = {};
             }, function(errorResponse) {
                 $scope.project.error = errorResponse.data.message;
             });
