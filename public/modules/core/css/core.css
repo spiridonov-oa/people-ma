@@ -14,9 +14,12 @@
 
 @font-face {
     font-family: Gothic;
-    src: url(../fonts/CenturyGothicRegular.ttf) format('truetype');
+    src: url(./fonts/CenturyGothicRegular.ttf);
 }
 
+.none {
+    display: none!important;
+}
 .uppercase {
     text-transform: uppercase;
 }
@@ -205,11 +208,11 @@ body, html {
  CIRCLE
  *************************************************************************************/
 .circle-wrapper {
-         position: absolute;
+    position: absolute;
     top:0;
     left:0;
     right:0;
-    bottom:8em;
+    height: 100%;
 }
 .circle {
     display:none;
@@ -226,9 +229,10 @@ body, html {
 .home .circle {
     display: block;
     right: 58%;
-    bottom: 0;
+    bottom: 8em;
     height: 10em;
     width: 10em;
+
 }
 
 
@@ -250,81 +254,103 @@ body, html {
     height: 100%;
 }
 
+ /*
 [ui-view].ng-enter,
 [ui-view].ng-leave {
-    -webkit-transition:all 10s ease-in-out;
-    -moz-transition:all 10s ease-in-out;
-    -o-transition:all 10s ease-in-out;
-    transition:all 10s ease-in-out;
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
+}
+/*
+[ui-view].ng-enter-stagger {
+    -webkit-transition-delay: 2s;
+    transition-delay: 2s;
 }
 
-[ui-view].ng-enter .animate-page,
-[ui-view].ng-leave .animate-page {
-    -webkit-transition:all 0.5s ease-in-out;
-    -moz-transition:all 0.5s ease-in-out;
-    -o-transition:all 0.5s ease-in-out;
-    transition:all 0.5s ease-in-out;
+[ui-view].long-animation.ng-enter,
+[ui-view].long-animation.ng-leave {
+    -webkit-transition:all 6s ease-in-out;
+    -moz-transition:all 6s ease-in-out;
+    -o-transition:all 6s ease-in-out;
+    transition:all 6s ease-in-out;
+}
+
+[ui-view].long-animation.ng-enter-stagger {
+    -webkit-transition-delay: 2s;
+    transition-delay: 2s;
+}
+
+[ui-view].ng-enter-active .animate-page,
+[ui-view].ng-leave-active .animate-page {
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
+}
+
+[ui-view].long-animation.ng-enter-stagger .animate-page{
+    -webkit-transition-delay: 2s;
+    transition-delay: 2s;
+}
+
+[ui-view].ng-enter,
+[ui-view].ng-leave.ng-leave-active{
+
+}
+
+[ui-view].ng-enter.ng-enter-active,
+[ui-view].ng-leave {
+
 }
 
 [ui-view].ng-enter .animate-page,
 [ui-view].ng-leave.ng-leave-active .animate-page {
+    top: 0;
+    left: 0;
     opacity: 0;
 }
 
 [ui-view].ng-enter.ng-enter-active .animate-page,
 [ui-view].ng-leave .animate-page {
+    top: 0;
+    left: 0;
     opacity: 1;
 }
+
 
 
 /**************************************************************************************
  NG-ANIMATE = Home --> Projects, Home --> Concepts
  *************************************************************************************/
 
-.from-projects.home [ui-view].ng-enter .animate-page,
-.from-home.projects [ui-view].ng-leave.ng-leave-active .animate-page,
-.from-concept.home [ui-view].ng-enter .animate-page,
-.from-home.concept [ui-view].ng-leave.ng-leave-active .animate-page{
+/*
+
+.from-projects.home [ui-view].ng-enter .home-page,
+.from-home.projects [ui-view].ng-leave.ng-leave-active .home-page {
     top: 0;
     left: 100%;
 }
 
-.from-projects.home [ui-view].ng-enter.ng-enter-active .animate-page,
-.from-home.projects [ui-view].ng-leave .animate-page,
-.from-concept.home [ui-view].ng-enter.ng-enter-active .animate-page,
-.from-home.concept [ui-view].ng-leave .animate-page{
+.from-projects.home [ui-view].ng-enter.ng-enter-active .home-page,
+.from-home.projects [ui-view].ng-leave .home-page {
     top: 0;
     left: 0;
 }
 
-.projects [ui-view].ng-enter .projects-page {
 
-    -webkit-transition:all 0.5s ease-in-out 0.6s;
-    -moz-transition:all 0.5s ease-in-out 0.6s;
-    -o-transition:all 0.5s ease-in-out 0.6s;
-    transition:all 0.5s ease-in-out 0.6s;
-}
 
-.projects [ui-view].ng-enter .projects-page {
-    opacity: 0;
-}
-
-.projects [ui-view].ng-enter.ng-enter-active .projects-page {
-    opacity: 1;
+.from-concept.home [ui-view].ng-enter .home-page,
+.from-home.concept [ui-view].ng-leave.ng-leave-active .home-page {
+    top: 0;
+    left: 100%;
 }
 
 
-
-.home-projects .circle{
-    -webkit-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
-    -moz-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
-    -o-transition: bottom 0.3s linear, right 0.3s linear 0.3s;
-    transition: bottom 0.3s linear, right 0.3s linear 0.3s;
+.from-concept.home [ui-view].ng-enter.ng-enter-active .home-page,
+.from-home.concept [ui-view].ng-leave .home-page{
+    top: 0;
+    left: 0;
 }
+*/
 
-.projects-home .circle{
-    -webkit-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
-    -moz-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
-    -o-transition: right 0.3s linear, bottom 0.3s linear 0.3s;
-    transition: right 0.3s linear, bottom 0.3s linear 0.3s;
-}
