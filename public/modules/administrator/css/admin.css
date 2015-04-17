@@ -17,7 +17,6 @@ body {
 
 .admin-page .page-wrapper {
     max-width: 1366px;
-
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -35,17 +34,31 @@ body {
 .admin-page .list {
     padding: 10px;
     float: left;
-    margin-left: 200px;
-    margin-right: 430px;
+    width: 100%;
+    padding-left: 240px;
+    padding-right: 450px;
+}
+
+.create-new-btn {
+    position: absolute;
+    top: -32px;
+    width: 140px;
 }
 
 .admin-page .form {
+    position: relative;
     padding: 0 30px;
     float: left;
     width: 400px;
     margin-left: -430px;
 }
 
+.admin-page .form h3{
+    min-height: 30px;
+}
+.admin-page .form .buttons input {
+    width: 100px;
+}
 .form .input-group {
     margin-bottom: 10px;
 }

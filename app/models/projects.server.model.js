@@ -67,6 +67,12 @@ var ProjectSchema = new Schema({
         }],
         default: []
     },
+    type: {
+        type: String,
+        default: '',
+        required: 'Please browse project type',
+        trim: true
+    },
 	created: {
 		type: Date,
 		default: Date.now

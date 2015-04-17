@@ -1,6 +1,62 @@
-<div class="admin-page admin-concepts"  data-ng-controller="AdminController">
-    <h1>Admin panel</h1>
-    <admin-menu></admin-menu>
+<div class="admin-page admin-concepts"  data-ng-controller="AdminConceptController">
+    <div class="page-wrapper">
+        <h1>Admin panel</h1>
+        <admin-menu></admin-menu>
+        <div class="list">
+            <div class="list-group">
 
+                <a ng-href="#!/admin/concepts/{{conceptItem._id}}"
+                   ng-repeat="conceptItem in concepts | orderBy:'-order'"
+                   class="list-group-item"
+                   ng-class="{ 'active': conceptItem._id === concept.currentConceptId}">
+                    <h4 class="list-group-item-heading">{{conceptItem.name}}</h4>
+                    <p class="list-group-item-text">{{conceptItem.description}}</p>
+                </a>
+            </div>
+        </div>
+        <div class="form">
+            <h3 ng-if="!concept.isCreateNewConcept">{{concept.data.name}}</h3>
+            <h3 ng-if="concept.isCreateNewConcept">New Concept Information</h3>
+            <div><a class="btn btn-success create-new-btn" ng-if="!concept.isCreateNewConcept" ng-href="#!/admin/concepts/">+ Create New</a></div>
+            <form name="articleForm" class="form-horizontal" data-ng-submit="concept.submit()" novalidate>
+                <fieldset>
+                    <div class="input-group" >
+                        <label class="input-group-addon" for="name">Name</label>
+                        <input name="name" data-ng-model="concept.data.name" id="name" class="form-control" placeholder="Name" required  type="text">
+                    </div>
+                    <div class="textarea-group">
+                        <textarea name="description" data-ng-model="concept.data.description" id="description" class="form-control" cols="30" rows="5" placeholder="Description"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="photos">Photos</label>
+                        <input name="photos" data-ng-model="concept.data.photos" id="photos" class="form-control" placeholder="Photos" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon">Commerce
+                            <input type="radio"
+                               ng-model="concept.data.type"
+                               value="commerce" checked>
+                        </label>
+                        <label class="input-group-addon">Live
+                            <input type="radio"
+                               ng-model="concept.data.type"
+                               value="live">
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="order">Order</label>
+                        <input name="order" data-ng-model="concept.data.order" id="order" class="form-control"  placeholder="Order">
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="btn btn-success" value="Save">
+                        <input class="btn btn-danger pull-right" value="Remove" data-ng-click="concept.remove()">
+                    </div>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
 

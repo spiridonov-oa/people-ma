@@ -13,10 +13,18 @@ angular.module('admin').config(['$stateProvider',
 			url: '/admin/projects',
 			templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
 		}).
+        state('adminCurrentProject', {
+            url: '/admin/projects/:projectId',
+            templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
+        }).
 		state('adminConcepts', {
 			url: '/admin/concepts',
 			templateUrl: 'modules/administrator/views/admin-concepts.client.view.html'
 		}).
+        state('adminCurrentConcept', {
+            url: '/admin/concepts/:conceptsId',
+            templateUrl: 'modules/administrator/views/admin-concepts.client.view.html'
+        }).
 		state('adminPeoples', {
 			url: '/admin/peoples',
 			templateUrl: 'modules/administrator/views/admin-peoples.client.view.html'

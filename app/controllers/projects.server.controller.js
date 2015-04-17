@@ -12,10 +12,10 @@ var mongoose = require('mongoose'),
  * Create a Project
  */
 exports.create = function(req, res) {
-	var concept = new Project(req.body);
-	concept.user = req.user;
+	var project = new Project(req.body);
+	project.user = req.user;
 
-	concept.save(function(err) {
+	project.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
