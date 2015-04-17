@@ -6,10 +6,12 @@ module.exports = {
 		lib: {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css'
+				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+                'public/lib/slick-carousel/slick/slick.css',
+                'public/lib/slick-carousel/slick/slick-theme.css'
 			],
 			js: [
-				'public/lib/angular/angular.min.js',
+                'public/lib/angular/angular.js',
 				'public/lib/angular-resource/angular-resource.js', 
 				'public/lib/angular-cookies/angular-cookies.js', 
 				'public/lib/angular-animate/angular-animate.js', 
@@ -17,7 +19,10 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                'public/lib/jquery/dist/jquery.js',
+                'public/lib/slick-carousel/slick/slick.min.js',
+                'public/lib/angular-slick/dist/slick.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
