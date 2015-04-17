@@ -6,7 +6,7 @@
             <div class="list-group">
 
                 <a ng-href="#!/admin/projects/{{projectItem._id}}"
-                   ng-repeat="projectItem in projects | filter: projectItem.order"
+                   ng-repeat="projectItem in projects | orderBy:'-order'"
                    class="list-group-item"
                    ng-class="{ 'active': projectItem._id === project.currentProjectId}">
                     <h4 class="list-group-item-heading">{{projectItem.name}}</h4>
