@@ -8,6 +8,6 @@ angular.module('core').directive('mainmenu', ['Menus',
             link: function (scope) {
                 scope.menu = Menus.getMenu('mainmenu');
                 scope.menuItemSize = Math.floor(12 / scope.menu.length);
-            }
+        }
     };
 }]);

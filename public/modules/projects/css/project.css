@@ -13,13 +13,70 @@
 
 .projects-bg {
     position: absolute;
-    width: 1000px;
+    width: 100%;
     height: 100%;
-    right: 0;
-    background: url('../img/projects-bg.jpg') no-repeat  ;
+    left: 0;
+    top: 0;
     opacity: 1;
-    background-size: cover;
     z-index: -2;
+}
+
+.projects-bg-top-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    opacity: 1;
+    background: url('../img/projects-img.png') no-repeat;
+    background-size: 100%;
+
+    -ms-transform: rotate(7deg); /* IE 9 */
+    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+    transform: rotate(7deg);
+
+    -webkit-transition:all 4s ease-in-out;
+    -moz-transition:all 4s ease-in-out;
+    -o-transition:all 4s ease-in-out;
+    transition:all 4s ease-in-out;
+}
+
+.projects-bg-bottom-img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -600px;
+    width: 50%;
+    height: 50%;
+    opacity: 1;
+    background: url('../img/projects-img.png') no-repeat;
+    background-size: 100%;
+
+    -ms-transform: rotate(7deg); /* IE 9 */
+    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+    transform: rotate(7deg);
+
+    -webkit-transition:all 4s ease-in-out;
+    -moz-transition:all 4s ease-in-out;
+    -o-transition:all 4s ease-in-out;
+    transition:all 4s ease-in-out;
+}
+
+.projects-bg-top-img.animate {
+    -ms-transform: rotate(160deg); /* IE 9 */
+    -webkit-transform: rotate(160deg); /* Chrome, Safari, Opera */
+    transform: rotate(160deg);
+}
+
+.projects-bg-sonne {
+    position: absolute;
+    width: 250px;
+    height: 228px;
+    top: 10%;
+    left: 30%;
+    background: url('../img/projects-sonne.png') 100% 100% no-repeat ;
+    opacity: 0;
+    background-size: cover;
 }
 
 .projects-page .line{
@@ -27,7 +84,8 @@
 }
 
 .projects-type {
-    padding: 0 30px 2% 0;
+    padding: 0 30px
+    2% 0;
     vertical-align: top;
     line-height: 60px;
     font-size: 1.2em;
@@ -108,43 +166,48 @@
  *************************************************************************************/
 /*
 
-[ui-view].ng-enter .projects-page {
-    opacity: 0;
+.projects [ui-view].ng-enter,
+.from-projects [ui-view].ng-leave {
+    -webkit-transition:all 4s ease-in-out;
+    -moz-transition:all 4s ease-in-out;
+    -o-transition:all 4s ease-in-out;
+    transition:all 4s ease-in-out;
+}
+.projects [ui-view].ng-leave {
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
 }
 
-[ui-view].ng-enter-active .projects-page {
-    opacity: 1;
+.from-projects [ui-view].ng-enter {
+    -webkit-transition:all 1s ease-in-out 3s;
+    -moz-transition:all 1s ease-in-out 3s;
+    -o-transition:all 1s ease-in-out 3s;
+    transition:all 1s ease-in-out 3s;
 }
 
-[ui-view].ng-leave .projects-page {
-    opacity: 1;
+.projects [ui-view].ng-enter-active .projects-page .projects-line {
+    -webkit-transition:all 1s ease-in-out 3s;
+    -moz-transition:all 1s ease-in-out 3s;
+    -o-transition:all 1s ease-in-out 3s;
+    transition:all 1s ease-in-out 3s;
 }
 
-[ui-view].ng-leave-active .projects-page {
-    opacity: 0;
-}
-*/
-
-/* remove bg */
-/*
-
-[ui-view].ng-leave .projects-page .projects-bg {
-    z-index: -4;
+[ui-view].ng-leave-active .projects-page .projects-line{
+    -webkit-transition:all 1s ease-in-out;
+    -moz-transition:all 1s ease-in-out;
+    -o-transition:all 1s ease-in-out;
+    transition:all 1s ease-in-out;
 }
 
-[ui-view].ng-enter-active .projects-page .projects-line-holder,
-[ui-view].ng-leave-active .projects-page .projects-line-holder{
-    -webkit-transition:all 1s ease-in-out 5s;
-    -moz-transition:all 1s ease-in-out 5s;
-    -o-transition:all 1s ease-in-out 5s;
-    transition:all 1s ease-in-out 5s;
-}
-
-[ui-view].ng-enter .projects-page .projects-line-holder {
+.projects [ui-view].ng-enter .projects-page .projects-line,
+.from-projects [ui-view].ng-leave.ng-leave-active .projects-page .projects-line{
     margin-left: -100%;
 }
 
-[ui-view].ng-enter-active .projects-page .projects-line-holder {
+.projects [ui-view].ng-enter-active .projects-page .projects-line,
+.from-projects [ui-view].ng-leave .projects-page .projects-line {
     margin-left: 0;
 }
 */

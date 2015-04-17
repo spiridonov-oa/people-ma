@@ -81,6 +81,7 @@
 /**************************************************************************************
  NG-ANIMATE
  *************************************************************************************/
+/*
 [ui-view].ng-enter-active .people-page, [ui-view].ng-leave-active .people-page {
     -webkit-transition:all 1s ease-in-out;
     -moz-transition:all 1s ease-in-out;
@@ -107,3 +108,4 @@
     opacity: 0;
     top: 100%;
 }
+*/
