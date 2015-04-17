@@ -268,103 +268,106 @@ angular.module('admin').controller('AdminConceptController', ['$scope', '$state'
 'use strict';
 
 angular.module('admin').controller('AdminController', ['$scope', '$state', 'Authentication', 'Projects', '$location',
-	function($scope, $state, Authentication, Projects, $location) {
+	function($scope, $state, Authentication, ServiceObject, $location) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
-        $scope.project = {};
+        var page = 'project';
 
-        $scope.project.currentProjectId =  $state.params.projectId;
+        init(page);
 
-        $scope.project.isCreateNewProject = !$state.params.projectId;
+        function init (obj) {
 
-        $scope.project.create = function() {
-            var project = new Projects({
-                name: this.data.name || '',
-                times: this.data.times || '',
-                description: this.data.description || '',
-                tags: "project",
-                photos: [],
-                type: this.data.type || 'commerce',
-                order: this.data.order || 0
-            });
-            project.$save(function(response) {
-                $location.path('admin/projects/');
-                $scope.project.find();
-                $scope.project.data = {};
-            }, function(errorResponse) {
-                $scope.project.error = errorResponse.data.message;
-            });
-        };
+            var objId = obj + 'Id';
+            var objUrl = 'admin/' + obj + 's/';
 
-        $scope.project.remove = function(project) {
-            if (project) {
-                project.$remove();
+            $scope[obj] = {};
 
-                for (var i in $scope.projects) {
-                    if ($scope.projects[i] === project) {
-                        $scope.projects.splice(i, 1);
-                    }
-                }
-            } else {
-                $scope.project.data.$remove(function() {
-                    $location.path('admin/projects');
-                    $scope.project.find();
+            $scope[obj].currentProjectId =  $state.params[objId];
+
+            $scope[obj].isCreateNewProject = !$state.params[objId];
+
+            $scope[obj].create = function() {
+                var instance = new ServiceObject({
+                    name: this.data.name || '',
+                    times: this.data.times || '',
+                    description: this.data.description || '',
+                    tags: obj,
+                    photos: [],
+                    type: this.data.type || 'commerce',
+                    order: this.data.order || 0
                 });
+                instance.$save(function(response) {
+                    $location.path(objUrl);
+                    $scope[obj].find();
+                    obj.data = {};
+                }, function(errorResponse) {
+                    $scope[obj].error = errorResponse.data.message;
+                });
+            };
+
+            $scope[obj].remove = function(data) {
+                if (data) {
+                    data.$remove();
+
+                    for (var i in $scope.objArray) {
+                        if ($scope.objArray[i] === data) {
+                            $scope.objArray.splice(i, 1);
+                        }
+                    }
+                } else {
+                    $scope[obj].data.$remove(function() {
+                        $location.path(objUrl);
+                        $scope[obj].find();
+                    });
+                }
+            };
+
+            $scope[obj].update = function() {
+                var data = $scope[obj].data;
+
+                data.$update(function() {
+                    $location.path(objUrl + data._id);
+                    $scope[obj].find();
+                }, function(errorResponse) {
+                    $scope.error = errorResponse.data.message;
+                });
+            };
+
+            $scope[obj].find = function() {
+                ServiceObject.query(function(data) {
+                    $scope.objArray = data;
+                });
+            };
+
+            $scope[obj].submit = function () {
+                if($scope[obj].isCreateNewProject) {
+                    $scope[obj].create();
+                } else {
+                    $scope[obj].update();
+                }
+            };
+
+            $scope[obj].find();
+
+            $scope[obj].findById = function(objId) {
+                return ServiceObject.get({
+                    projectId: objId
+                });
+            };
+
+            $scope[obj].findOne = function() {
+                ServiceObject.get({
+                    projectId: $state.params[objId]
+                }, function(data) {
+                    $scope[obj].data = data;
+                });
+            };
+
+            if ($state.params[objId]) {
+                $scope[obj].findOne();
             }
-        };
-
-        $scope.project.update = function() {
-            var project = $scope.project.data;
-
-            project.$update(function() {
-                $location.path('admin/projects/' + project._id);
-                $scope.project.find();
-            }, function(errorResponse) {
-                $scope.error = errorResponse.data.message;
-            });
-        };
-
-        $scope.project.find = function() {
-            /*Projects.query(function(data) {
-                $scope.projects = data;
-            });*/
-
-            Projects.get({
-                tags: 'project'
-            }, function(data) {
-                $scope.concepts = data;
-            });
-        };
-
-        $scope.project.submit = function () {
-            if($scope.project.isCreateNewProject) {
-                $scope.project.create();
-            } else {
-                $scope.project.update();
-            }
-        };
-
-        $scope.project.find();
-
-        $scope.project.findById = function(projectId) {
-             return Projects.get({
-                projectId: projectId
-            });
-        };
-
-        $scope.project.findOne = function() {
-            var project = Projects.get({
-                projectId: $state.params.projectId
-            }, function(project) {
-                $scope.project.data = project;
-            });
-        };
-
-        if ($state.params.projectId) {
-            $scope.project.findOne();
         }
-
 	}
 ]);
 
