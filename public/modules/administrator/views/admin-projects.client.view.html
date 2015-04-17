@@ -4,7 +4,7 @@
         <admin-menu></admin-menu>
         <div class="list">
             <ul>
-               <li ng-repeat="pr in projects"></li>
+               <li ng-repeat="pr in projects">pr.name</li>
             </ul>
         </div>
         <div class="form">
@@ -12,22 +12,22 @@
                 <fieldset>
                     <div class="input-group" ng-class="{ 'has-error': articleForm.title.$dirty && articleForm.title.$invalid }">
                         <label class="input-group-addon" for="name">Name</label>
-                        <input name="name" data-ng-model="project.new.name" id="name" class="form-control" placeholder="Name" required  type="text">
+                        <input name="name" data-ng-model="project.data.name" id="name" class="form-control" placeholder="Name" required  type="text">
                     </div>
                     <div class="textarea-group">
-                        <textarea name="description" data-ng-model="project.new.description" id="description" class="form-control" cols="30" rows="5" placeholder="Description"></textarea>
+                        <textarea name="description" data-ng-model="project.data.description" id="description" class="form-control" cols="30" rows="5" placeholder="Description"></textarea>
                     </div>
                     <div class="input-group">
-                        <label class="input-group-addon" for="photoset">Photoset</label>
-                        <input name="photoset" data-ng-model="project.new.photoset" id="photoset" class="form-control" placeholder="Photoset" type="text">
+                        <label class="input-group-addon" for="photos">Photos</label>
+                        <input name="photos" data-ng-model="project.data.photos" id="photos" class="form-control" placeholder="Photos" type="text">
                     </div>
-                    <div class="input-group">
+                    <div class="input-group none">
                         <label class="input-group-addon" for="tags">Tags</label>
-                        <input name="tags" data-ng-model="project.new.tags" id="tags" class="form-control" placeholder="tags" type="text">
+                        <input name="tags" data-ng-model="project.data.tags" id="tags" class="form-control" value="project" placeholder="tags" type="text">
                     </div>
                     <div class="input-group">
                         <label class="input-group-addon" for="order">Order</label>
-                        <input name="order" data-ng-model="project.new.order" id="order" class="form-control"  placeholder="tags">
+                        <input name="order" data-ng-model="project.data.order" id="order" class="form-control"  placeholder="Order">
                     </div>
                     <div class="input-group">
                         <input type="submit" class="btn btn-default">
