@@ -16,29 +16,56 @@ var ProjectSchema = new Schema({
 		required: 'Please fill Project name',
 		trim: true
 	},
+    icon: {
+        type: String,
+        default: '',
+        trim: true
+    },
     times: {
         type: String,
         default: '',
-        required: 'Please fill time period',
         trim: true
     },
     description: {
         type: String,
         default: '',
-        required: 'Please fill Project description',
         trim: true
     },
     tags: {
         type: Array,
         default: [],
-        required: 'Please fill Project tags',
-        trim: true
+        required: 'Please fill Project tags'
     },
-    photoset: {
-        type: String,
-        default: '',
-        required: 'Please choose Project photoset',
-        trim: true
+    photos: {
+        type: [{
+            title: {
+                type: String,
+                default: '',
+                required: 'Please fill Photo name',
+                trim: true
+            },
+            description: {
+                type: String,
+                default: '',
+                trim: true
+            },
+            url: {
+                type: String,
+                default: '',
+                required: 'Please browse photo path',
+                trim: true
+            },
+            thumb: {
+                type: String,
+                default: '',
+                trim: true
+            },
+            order: {
+                type: Number,
+                default: 0
+            }
+        }],
+        default: []
     },
 	created: {
 		type: Date,
