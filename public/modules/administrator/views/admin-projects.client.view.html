@@ -1,12 +1,12 @@
-<div class="admin-page admin-projects"  data-ng-controller="AdminController">
+<div class="admin-page admin-projects">
     <div class="page-wrapper">
         <h1>Admin panel</h1>
         <admin-menu></admin-menu>
         <div class="list">
             <div class="list-group">
 
-                <a ng-href="#!/admin/projects/{{projectItem._id}}"
-                   ng-repeat="projectItem in projects | orderBy:'-order'"
+                <a ng-href="{{project.path}}/{{projectItem._id}}"
+                   ng-repeat="projectItem in project.objArray | orderBy:'order'"
                    class="list-group-item"
                    ng-class="{ 'active': projectItem._id === project.currentProjectId}">
                     <h4 class="list-group-item-heading">{{projectItem.name}}</h4>
@@ -17,7 +17,7 @@
         <div class="form">
             <h3 ng-if="!project.isCreateNewProject">{{project.data.name}}</h3>
             <h3 ng-if="project.isCreateNewProject">New Project Information</h3>
-            <div><a class="btn btn-success create-new-btn" ng-if="!project.isCreateNewProject" ng-href="#!/admin/projects/">+ Create New</a></div>
+            <div><a class="btn btn-success create-new-btn" ng-if="!project.isCreateNewProject" ng-href="#!{{project.path}}/">+ Create New</a></div>
             <form name="articleForm" class="form-horizontal" data-ng-submit="project.submit()" novalidate>
                 <fieldset>
                     <div class="input-group" >
@@ -28,18 +28,22 @@
                         <textarea name="description" data-ng-model="project.data.description" id="description" class="form-control" cols="30" rows="5" placeholder="Description"></textarea>
                     </div>
                     <div class="input-group">
-                        <label class="input-group-addon" for="photos">Photos</label>
-                        <input name="photos" data-ng-model="project.data.photos" id="photos" class="form-control" placeholder="Photos" type="text">
+                        <label class="input-group-addon" for="icon">Icon</label>
+                        <input name="icon" data-ng-model="project.data.photos" id="icon" class="form-control" placeholder="Icon" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-group-addon" for="times">Times</label>
+                        <input name="times" data-ng-model="project.data.times" id="times" class="form-control" placeholder="Times" type="text">
                     </div>
                     <div class="input-group">
                         <label class="input-group-addon">Commerce
                             <input type="radio"
-                                   ng-model="project.data.type"
+                                   ng-model="project.data.section"
                                    value="commerce" checked>
                         </label>
                         <label class="input-group-addon">Live
                             <input type="radio"
-                                   ng-model="project.data.type"
+                                   ng-model="project.data.section"
                                    value="live">
                         </label>
                     </div>
@@ -47,12 +51,15 @@
                         <label class="input-group-addon" for="order">Order</label>
                         <input name="order" data-ng-model="project.data.order" id="order" class="form-control"  placeholder="Order">
                     </div>
+                    <div class="input-group">
+                        <button type="button" class="btn btn-primary">Add photos</button>
+                    </div>
                     <div class="buttons">
                         <input type="submit" class="btn btn-success" value="Save">
                         <input class="btn btn-danger pull-right" value="Remove" data-ng-click="project.remove()">
                     </div>
                     <div data-ng-show="error" class="text-danger">
-                        <strong data-ng-bind="error"></strong>
+                        <strong data-ng-bind="project.error"></strong>
                     </div>
                 </fieldset>
             </form>

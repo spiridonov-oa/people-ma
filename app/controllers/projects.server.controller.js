@@ -96,6 +96,46 @@ exports.projectByID = function(req, res, next, id) {
 	});
 };
 
+exports.projectByProperties = function(req, res, next, props) {
+    Project.find(props).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(projects);
+        }
+    });
+};
+
+exports.projects = function(req, res) {
+    console.log("projects");
+    Project.find({type: 'project'}).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
+        console.log("res projects");
+        if (err) {
+            console.log("err");
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            console.log("succ");
+            res.jsonp(projects);
+        }
+    });
+};
+
+exports.concepts = function(req, res) {
+    Project.find({type: 'concept'}).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(projects);
+        }
+    });
+};
+
 /**
  * Project authorization middleware
  */

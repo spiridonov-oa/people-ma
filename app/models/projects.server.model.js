@@ -4,18 +4,18 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+    Schema = mongoose.Schema;
 
 /**
  * Project Schema
  */
 var ProjectSchema = new Schema({
-	name: {
-		type: String,
-		default: '',
-		required: 'Please fill Project name',
-		trim: true
-	},
+    name: {
+        type: String,
+        default: '',
+        required: 'Please fill Project name',
+        trim: true
+    },
     icon: {
         type: String,
         default: '',
@@ -33,8 +33,7 @@ var ProjectSchema = new Schema({
     },
     tags: {
         type: Array,
-        default: [],
-        required: 'Please fill Project tags'
+        default: []
     },
     photos: {
         type: [{
@@ -67,20 +66,26 @@ var ProjectSchema = new Schema({
         }],
         default: []
     },
+    section: {
+        type: String,
+        default: '',
+        required: 'Please browse project section',
+        trim: true
+    },
     type: {
         type: String,
         default: '',
         required: 'Please browse project type',
         trim: true
     },
-	created: {
-		type: Date,
-		default: Date.now
-	},
-	user: {
-		type: Schema.ObjectId,
-		ref: 'User'
-	},
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     order: {
         type: Number,
         default: 0
