@@ -30,7 +30,7 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider',
 	function($locationProvider) {
-		$locationProvider.hashPrefix('app');
+		$locationProvider.hashPrefix('!');
 	}
 ]);
 
@@ -56,15 +56,11 @@ ApplicationConfiguration.registerModule('admin');
 'use strict';
 
 // Use applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('architectors');
+ApplicationConfiguration.registerModule('arches');
 'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('articles');
-'use strict';
-
-// Use applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('concepts');
 'use strict';
 
 // Use Applicaion configuration module to register a new module
@@ -126,7 +122,7 @@ angular.module('admin').run(['Menus',
 		Menus.addMenuItem('admin-menu', 'Home', 'admin', 'dropdown', '/admin');
         Menus.addMenuItem('admin-menu', 'Projects', 'adminProjects', 'dropdown', '/admin/projects');
         Menus.addMenuItem('admin-menu', 'Concepts', 'adminConcepts', 'dropdown', '/admin/concepts');
-        Menus.addMenuItem('admin-menu', 'Peoples', 'adminPeoples', 'dropdown', '/admin/peoples');
+        Menus.addMenuItem('admin-menu', 'People', 'adminPeople', 'dropdown', '/admin/people');
 	}
 ]);
 
@@ -134,243 +130,91 @@ angular.module('admin').run(['Menus',
 
 //Setting up route
 angular.module('admin').config(['$stateProvider',
-	function($stateProvider) {
-		// Concepts state routing
-		$stateProvider.
-		state('admin', {
-			url: '/admin',
-			templateUrl: 'modules/administrator/views/admin.client.view.html'
-		}).
-		state('adminProjects', {
-			url: '/admin/projects',
-			templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
-		}).
-        state('adminCurrentProject', {
-            url: '/admin/projects/:projectId',
-            templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
-        }).
-		state('adminConcepts', {
-			url: '/admin/concepts',
-			templateUrl: 'modules/administrator/views/admin-concepts.client.view.html'
-		}).
-        state('adminCurrentConcept', {
-            url: '/admin/concepts/:conceptsId',
-            templateUrl: 'modules/administrator/views/admin-concepts.client.view.html'
-        }).
-		state('adminPeoples', {
-			url: '/admin/peoples',
-			templateUrl: 'modules/administrator/views/admin-peoples.client.view.html'
-		});
-	}
+    function ($stateProvider) {
+        // Concepts state routing
+        $stateProvider.
+            state('admin', {
+                url: '/admin',
+                templateUrl: 'modules/administrator/views/admin.client.view.html'
+            }).
+            state('adminProjects', {
+                url: '/admin/projects',
+                controller: 'AdminProjectsController',
+                templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
+            }).
+            state('adminCurrentProject', {
+                url: '/admin/projects/:projectId',
+                controller: 'AdminProjectsController',
+                templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
+            }).
+            state('adminConcepts', {
+                url: '/admin/concepts',
+                controller: 'AdminConceptsController',
+                templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
+            }).
+            state('adminCurrentConcept', {
+                url: '/admin/concepts/:projectId',
+                controller: 'AdminConceptsController',
+                templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
+            }).
+            state('adminPeoples', {
+                url: '/admin/people',
+                controller: 'AdminPeopleController',
+                templateUrl: 'modules/administrator/views/admin-people.client.view.html'
+            }).
+            state('adminCurrentPerson', {
+                url: '/admin/people/:personId',
+                controller: 'AdminPeopleController',
+                templateUrl: 'modules/administrator/views/admin-people.client.view.html'
+            });
+    }
 ]);
 
 'use strict';
 
-angular.module('admin').controller('AdminConceptController', ['$scope', '$state', 'Authentication', 'Projects', '$location',
-	function($scope, $state, Authentication, Concepts, $location) {
-		// This provides Authentication context.
-		$scope.authentication = Authentication;
+angular.module('admin').controller('AdminConceptsController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory', 'Concepts',
+    function($scope, $state, Authentication, $location, ProjectFactory, Concepts) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
 
-        $scope.concept = {};
+        $scope.project = ProjectFactory.getProject('concept', Concepts);
 
-        $scope.concept.currentConceptId =  $state.params.conceptId;
-
-        $scope.concept.isCreateNewConcept = !$state.params.conceptId;
-
-        $scope.concept.create = function() {
-            var concept = new Concepts({
-                name: this.data.name || '',
-                times: this.data.times || '',
-                description: this.data.description || '',
-                tags: "concept",
-                photos: [],
-                type: this.data.type || 'commerce',
-                order: this.data.order || 0
-            });
-            concept.$save(function(response) {
-                $location.path('admin/concepts/');
-                $scope.concept.find();
-                $scope.concept.data = {};
-            }, function(errorResponse) {
-                $scope.concept.error = errorResponse.data.message;
-            });
-        };
-
-        $scope.concept.remove = function(concept) {
-            if (concept) {
-                concept.$remove();
-
-                for (var i in $scope.concepts) {
-                    if ($scope.concepts[i] === concept) {
-                        $scope.concepts.splice(i, 1);
-                    }
-                }
-            } else {
-                $scope.concept.data.$remove(function() {
-                    $location.path('admin/concepts');
-                    $scope.concept.find();
-                });
-            }
-        };
-
-        $scope.concept.update = function() {
-            var concept = $scope.concept.data;
-
-            concept.$update(function() {
-                $location.path('admin/concepts/' + concept._id);
-                $scope.concept.find();
-            }, function(errorResponse) {
-                $scope.error = errorResponse.data.message;
-            });
-        };
-
-        $scope.concept.find = function() {
-            /*Concepts.query(function(data) {
-                $scope.concepts = data;
-            });*/
-
-            Concepts.get({
-                tags: 'concept'
-            }, function(data) {
-                $scope.concepts = data;
-            });
-        };
-
-        $scope.concept.submit = function () {
-            if($scope.concept.isCreateNewConcept) {
-                $scope.concept.create();
-            } else {
-                $scope.concept.update();
-            }
-        };
-
-        $scope.concept.find();
-
-        $scope.concept.findById = function(conceptId) {
-             return Concepts.get({
-                projectId: conceptId
-            });
-        };
-
-        $scope.concept.findOne = function() {
-            var concept = Concepts.get({
-                projectId: $state.params.conceptId
-            }, function(concept) {
-                $scope.concept.data = concept;
-            });
-        };
-
-        if ($state.params.conceptId) {
-            $scope.concept.findOne();
-        }
-
-	}
+    }
 ]);
 
 'use strict';
 
-angular.module('admin').controller('AdminController', ['$scope', '$state', 'Authentication', 'Projects', '$location',
-	function($scope, $state, Authentication, ServiceObject, $location) {
-		// This provides Authentication context.
-		$scope.authentication = Authentication;
+angular.module('admin').controller('AdminPeopleController', ['$scope', '$state', 'Authentication', '$location', 'PersonFactory',
+    function($scope, $state, Authentication, $location, PersonFactory) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
 
-        var page = 'project';
+        $scope.person = PersonFactory.getPerson();
 
-        init(page);
+    }
+]);
 
-        function init (obj) {
+'use strict';
 
-            var objId = obj + 'Id';
-            var objUrl = 'admin/' + obj + 's/';
+angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory', 'Projects',
+    function($scope, $state, Authentication, $location, ProjectFactory, Projects) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
 
-            $scope[obj] = {};
+        $scope.project = ProjectFactory.getProject('project', Projects);
 
-            $scope[obj].currentProjectId =  $state.params[objId];
+    }
+]);
 
-            $scope[obj].isCreateNewProject = !$state.params[objId];
+'use strict';
 
-            $scope[obj].create = function() {
-                var instance = new ServiceObject({
-                    name: this.data.name || '',
-                    times: this.data.times || '',
-                    description: this.data.description || '',
-                    tags: obj,
-                    photos: [],
-                    type: this.data.type || 'commerce',
-                    order: this.data.order || 0
-                });
-                instance.$save(function(response) {
-                    $location.path(objUrl);
-                    $scope[obj].find();
-                    obj.data = {};
-                }, function(errorResponse) {
-                    $scope[obj].error = errorResponse.data.message;
-                });
-            };
+angular.module('admin').controller('AdminController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory',
+    function ($scope, $state, Authentication, $location, ProjectFactory) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
 
-            $scope[obj].remove = function(data) {
-                if (data) {
-                    data.$remove();
 
-                    for (var i in $scope.objArray) {
-                        if ($scope.objArray[i] === data) {
-                            $scope.objArray.splice(i, 1);
-                        }
-                    }
-                } else {
-                    $scope[obj].data.$remove(function() {
-                        $location.path(objUrl);
-                        $scope[obj].find();
-                    });
-                }
-            };
-
-            $scope[obj].update = function() {
-                var data = $scope[obj].data;
-
-                data.$update(function() {
-                    $location.path(objUrl + data._id);
-                    $scope[obj].find();
-                }, function(errorResponse) {
-                    $scope.error = errorResponse.data.message;
-                });
-            };
-
-            $scope[obj].find = function() {
-                ServiceObject.query(function(data) {
-                    $scope.objArray = data;
-                });
-            };
-
-            $scope[obj].submit = function () {
-                if($scope[obj].isCreateNewProject) {
-                    $scope[obj].create();
-                } else {
-                    $scope[obj].update();
-                }
-            };
-
-            $scope[obj].find();
-
-            $scope[obj].findById = function(objId) {
-                return ServiceObject.get({
-                    projectId: objId
-                });
-            };
-
-            $scope[obj].findOne = function() {
-                ServiceObject.get({
-                    projectId: $state.params[objId]
-                }, function(data) {
-                    $scope[obj].data = data;
-                });
-            };
-
-            if ($state.params[objId]) {
-                $scope[obj].findOne();
-            }
-        }
-	}
+    }
 ]);
 
 'use strict';
@@ -391,8 +235,256 @@ angular.module('admin').directive('adminMenu', ['Menus', '$state',
 
 'use strict';
 
+angular.module('admin').factory('ProjectFactory', ['$state', '$location',
+    function ($state, $location) {
+        var project = {};
+
+        var init = function (projectType, Service) {
+
+            var projectId = $state.params['projectId'];
+            var projectUrl = '/admin/' + projectType + 's';
+
+            project.path = '#!/admin/' + projectType + 's';
+            project.currentProjectId = projectId;
+            project.isCreateNewProject = !projectId;
+
+            project.create = function () {
+                var instance = new Service({
+                    name: project.data.name || '',
+                    times: project.data.times || '',
+                    description: project.data.description || '',
+                    tags: project.data.tags,
+                    icon: project.data.icon,
+                    photos: [],
+                    section: project.data.section || 'commerce',
+                    type: projectType,
+                    order: project.data.order || 0
+                });
+                instance.$save(function (response) {
+                    $location.path(projectUrl);
+                    project.find();
+                    project.data = {};
+                }, function (errorResponse) {
+                    project.error = errorResponse.data.message;
+                });
+            };
+
+            project.remove = function (data) {
+                if (data) {
+                    data.$remove();
+
+                    for (var i in project.objArray) {
+                        if (project.objArray[i] === data) {
+                            project.objArray.splice(i, 1);
+                        }
+                    }
+                } else {
+                    project.data.$remove(function () {
+                        $location.path(projectUrl);
+                        project.find();
+                    });
+                }
+            };
+
+            project.update = function () {
+                var data = project.data;
+
+                data.$update(function () {
+                    $location.path(projectUrl + '/' + data._id);
+                    project.find();
+                }, function (errorResponse) {
+                    project.error = errorResponse.data.message;
+                });
+            };
+
+            project.find = function (props) {
+                Service.query(function (data) {
+                    project.objArray = data;
+                });
+            };
+
+            project.submit = function () {
+                if (project.isCreateNewProject) {
+                    project.create();
+                } else {
+                    project.update();
+                }
+            };
+
+            project.findById = function (objId) {
+                return Service.get({
+                    projectId: objId
+                });
+            };
+
+            project.findOne = function () {
+                Service.get({
+                    projectId: projectId
+                }, function (data) {
+                    project.data = data;
+                    project.find();
+                });
+            };
+
+            if (project.currentProjectId) {
+                project.findOne();
+            } else {
+                project.data = {};
+                project.find();
+            }
+
+            return project;
+        };
+
+        return {
+            getProject: function (type, Service) {
+                return init(type, Service);
+            }
+        }
+    }
+]);
+
+
+'use strict';
+
+angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People',
+    function ($state, $location, People) {
+        var person = {};
+
+        var init = function () {
+            var personId = $state.params['personId'];
+            var personUrl = '/admin/people';
+
+            person.path = '#!/admin/people';
+            person.currentPersonId = personId;
+            person.isCreateNewPerson = !personId;
+
+            person.create = function () {
+                var instance = new People({
+                    fName: person.data.fName || '',
+                    lName: person.data.lName || '',
+                    position: person.data.position || '',
+                    photo: person.data.photo || '',
+                    ava: person.data.ava || '',
+                    order: person.data.order || 0
+                });
+                instance.$save(function (response) {
+                    $location.path(personUrl);
+                    person.find();
+                    person.data = {};
+                }, function (errorResponse) {
+                    person.error = errorResponse.data.message;
+                });
+            };
+
+            person.remove = function (data) {
+                if (data) {
+                    data.$remove();
+
+                    for (var i in person.peopleArray) {
+                        if (person.peopleArray[i] === data) {
+                            person.peopleArray.splice(i, 1);
+                        }
+                    }
+                } else {
+                    person.data.$remove(function () {
+                        $location.path(personUrl);
+                        person.find();
+                    });
+                }
+            };
+
+            person.update = function () {
+                var data = person.data;
+
+                data.$update(function () {
+                    $location.path(personUrl + '/' + data._id);
+                    person.find();
+                }, function (errorResponse) {
+                    person.error = errorResponse.data.message;
+                });
+            };
+
+            person.find = function () {
+                People.query(function (data) {
+                    person.peopleArray = data;
+                });
+            };
+
+            person.submit = function () {
+                if (person.isCreateNewPerson) {
+                    person.create();
+                } else {
+                    person.update();
+                }
+            };
+
+            person.findById = function (objId) {
+                return People.get({
+                    personId: objId
+                });
+            };
+
+            person.findOne = function () {
+                People.get({
+                    personId: personId
+                }, function (data) {
+                    person.data = data;
+                    person.find();
+                });
+            };
+
+            if (person.currentPersonId) {
+                person.findOne();
+            } else {
+                person.data = {};
+                person.find();
+            }
+
+            return person;
+        };
+
+        return {
+            getPerson: function () {
+                return init();
+            }
+        }
+    }
+]);
+
+
+'use strict';
+
+angular.module('admin').factory('Concepts', ['$resource',
+    function ($resource) {
+        return $resource('concepts/:projectId', {
+            projectId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
+'use strict';
+
+angular.module('admin').factory('People', ['$resource',
+    function ($resource) {
+        return $resource('people/:personId', {
+            personId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
+'use strict';
+
 angular.module('admin').factory('Projects', ['$resource',
-    function($resource) {
+    function ($resource) {
         return $resource('projects/:projectId', {
             projectId: '@_id'
         }, {
@@ -405,127 +497,101 @@ angular.module('admin').factory('Projects', ['$resource',
 
 'use strict';
 
-// Configuring the Articles module
-angular.module('architectors').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		/*Menus.addMenuItem('admin-menu', 'Architectors', 'architectors', 'dropdown', '/architectors(/create)?');
-		Menus.addSubMenuItem('admin-menu', 'architectors', 'List Architectors', 'architectors');
-		Menus.addSubMenuItem('admin-menu', 'architectors', 'New Architector', 'architectors/create');*/
-	}
-]);
-
-'use strict';
-
 //Setting up route
-angular.module('architectors').config(['$stateProvider',
+angular.module('arches').config(['$stateProvider',
 	function($stateProvider) {
-		// Architectors state routing
+		// Arches state routing
 		$stateProvider.
-		state('persons', {
-			url: '/persons',
-			templateUrl: 'modules/architectors/views/persons.client.view.html'
+		state('listArches', {
+			url: '/arches',
+			templateUrl: 'modules/arches/views/list-arches.client.view.html'
 		}).
-		state('listArchitectors', {
-			url: '/architectors',
-			templateUrl: 'modules/architectors/views/list-architectors.client.view.html'
+		state('createArch', {
+			url: '/arches/create',
+			templateUrl: 'modules/arches/views/create-arch.client.view.html'
 		}).
-		state('createArchitector', {
-			url: '/architectors/create',
-			templateUrl: 'modules/architectors/views/create-architector.client.view.html'
+		state('viewArch', {
+			url: '/arches/:archId',
+			templateUrl: 'modules/arches/views/view-arch.client.view.html'
 		}).
-		state('viewArchitector', {
-			url: '/architectors/:architectorId',
-			templateUrl: 'modules/architectors/views/view-architector.client.view.html'
-		}).
-		state('editArchitector', {
-			url: '/architectors/:architectorId/edit',
-			templateUrl: 'modules/architectors/views/edit-architector.client.view.html'
+		state('editArch', {
+			url: '/arches/:archId/edit',
+			templateUrl: 'modules/arches/views/edit-arch.client.view.html'
 		});
 	}
 ]);
 'use strict';
 
-// Architectors controller
-angular.module('architectors').controller('ArchitectorsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Architectors',
-	function($scope, $stateParams, $location, Authentication, Architectors) {
+// Arches controller
+angular.module('arches').controller('ArchesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Arches',
+	function($scope, $stateParams, $location, Authentication, Arches) {
 		$scope.authentication = Authentication;
 
-		// Create new Architector
+		// Create new Arch
 		$scope.create = function() {
-			// Create new Architector object
-			var architector = new Architectors ({
-				name: this.name,
-                position :this.position
+			// Create new Arch object
+			var arch = new Arches ({
+				name: this.name
 			});
 
 			// Redirect after save
-			architector.$save(function(response) {
-				$location.path('architectors/' + response._id);
+			arch.$save(function(response) {
+				$location.path('arches/' + response._id);
 
 				// Clear form fields
 				$scope.name = '';
-                $scope.position = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
 
-		// Remove existing Architector
-		$scope.remove = function(architector) {
-			if ( architector ) { 
-				architector.$remove();
+		// Remove existing Arch
+		$scope.remove = function(arch) {
+			if ( arch ) { 
+				arch.$remove();
 
-				for (var i in $scope.architectors) {
-					if ($scope.architectors [i] === architector) {
-						$scope.architectors.splice(i, 1);
+				for (var i in $scope.arches) {
+					if ($scope.arches [i] === arch) {
+						$scope.arches.splice(i, 1);
 					}
 				}
 			} else {
-				$scope.architector.$remove(function() {
-					$location.path('architectors');
+				$scope.arch.$remove(function() {
+					$location.path('arches');
 				});
 			}
 		};
 
-		// Update existing Architector
+		// Update existing Arch
 		$scope.update = function() {
-			var architector = $scope.architector;
+			var arch = $scope.arch;
 
-			architector.$update(function() {
-				$location.path('architectors/' + architector._id);
+			arch.$update(function() {
+				$location.path('arches/' + arch._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
 
-		// Find a list of Architectors
+		// Find a list of Arches
 		$scope.find = function() {
-			$scope.architectors = Architectors.query();
+			$scope.arches = Arches.query();
 		};
 
-		// Find existing Architector
+		// Find existing Arch
 		$scope.findOne = function() {
-			$scope.architector = Architectors.get({ 
-				architectorId: $stateParams.architectorId
+			$scope.arch = Arches.get({ 
+				archId: $stateParams.archId
 			});
 		};
 	}
 ]);
 'use strict';
 
-angular.module('architectors').controller('PersonsController', ['$scope',
-	function($scope) {
-		// Persons controller logic
-		// ...
-	}
-]);
-'use strict';
-
-//Architectors service used to communicate Architectors REST endpoints
-angular.module('architectors').factory('Architectors', ['$resource',
+//Arches service used to communicate Arches REST endpoints
+angular.module('arches').factory('Arches', ['$resource',
 	function($resource) {
-		return $resource('architectors/:architectorId', { architectorId: '@_id'
+		return $resource('arches/:archId', { archId: '@_id'
 		}, {
 			update: {
 				method: 'PUT'
@@ -645,126 +711,6 @@ angular.module('articles').factory('Articles', ['$resource',
 'use strict';
 
 // Configuring the Articles module
-angular.module('concepts').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		/*Menus.addMenuItem('admin-menu', 'Concepts', 'concepts', 'dropdown', '/concepts(/create)?');
-		Menus.addSubMenuItem('admin-menu', 'concepts', 'List Concepts', 'concepts');
-		Menus.addSubMenuItem('admin-menu', 'concepts', 'New Concept', 'concepts/create');*/
-	}
-]);
-
-'use strict';
-
-//Setting up route
-angular.module('concepts').config(['$stateProvider',
-	function($stateProvider) {
-		// Concepts state routing
-		$stateProvider.
-		state('listConcepts', {
-			url: '/concepts',
-			templateUrl: 'modules/concepts/views/list-concepts.client.view.html'
-		}).
-		state('createConcept', {
-			url: '/concepts/create',
-			templateUrl: 'modules/concepts/views/create-concept.client.view.html'
-		}).
-		state('viewConcept', {
-			url: '/concepts/:conceptId',
-			templateUrl: 'modules/concepts/views/view-concept.client.view.html'
-		}).
-		state('editConcept', {
-			url: '/concepts/:conceptId/edit',
-			templateUrl: 'modules/concepts/views/edit-concept.client.view.html'
-		});
-	}
-]);
-'use strict';
-
-// Concepts controller
-angular.module('concepts').controller('ConceptsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Concepts',
-	function($scope, $stateParams, $location, Authentication, Concepts) {
-		$scope.authentication = Authentication;
-
-		// Create new Concept
-		$scope.create = function() {
-			// Create new Concept object
-			var concept = new Concepts ({
-				name: this.name,
-                times: this.times,
-                description: this.description,
-                tags: this.tags,
-                photoset: this.photoset
-			});
-
-			// Redirect after save
-			concept.$save(function(response) {
-				$location.path('concepts/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Remove existing Concept
-		$scope.remove = function(concept) {
-			if ( concept ) { 
-				concept.$remove();
-
-				for (var i in $scope.concepts) {
-					if ($scope.concepts [i] === concept) {
-						$scope.concepts.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.concept.$remove(function() {
-					$location.path('concepts');
-				});
-			}
-		};
-
-		// Update existing Concept
-		$scope.update = function() {
-			var concept = $scope.concept;
-
-			concept.$update(function() {
-				$location.path('concepts/' + concept._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Find a list of Concepts
-		$scope.find = function() {
-			$scope.concepts = Concepts.query();
-		};
-
-		// Find existing Concept
-		$scope.findOne = function() {
-			$scope.concept = Concepts.get({ 
-				conceptId: $stateParams.conceptId
-			});
-		};
-	}
-]);
-'use strict';
-
-//Concepts service used to communicate Concepts REST endpoints
-angular.module('concepts').factory('Concepts', ['$resource',
-	function($resource) {
-		return $resource('concepts/:conceptId', { conceptId: '@_id'
-		}, {
-			update: {
-				method: 'PUT'
-			}
-		});
-	}
-]);
-'use strict';
-
-// Configuring the Articles module
 angular.module('core').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
@@ -828,7 +774,7 @@ angular.module('core').controller('HomeController', ['$scope', '$state', 'Authen
 ]);
 
 'use strict';
-
+/*
 angular.module('core').directive('lens', ['$state', '$rootScope', function ($state, $rootScope) {
 
     var lens = (function () {
@@ -871,6 +817,7 @@ angular.module('core').directive('lens', ['$state', '$rootScope', function ($sta
         link: link
     };
 }]);
+      */
 
 'use strict';
 
@@ -1296,16 +1243,22 @@ angular.module('people').config(['$stateProvider',
 'use strict';
 
 // People controller
-angular.module('people').controller('PeopleController', ['$scope', '$stateParams', '$state', '$location', 'Authentication',
-	function($scope, $stateParams, $state, $location, Authentication) {
+angular.module('people').controller('PeopleController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'People',
+	function($scope, $stateParams, $state, $location, Authentication, People) {
 		$scope.authentication = Authentication;
 
-        $scope.people = [
-            {firstName: "Alla", secondName: "Micheeva", img: "img/1.jpg", order: 1},
-            {firstName: "Nina", secondName: "Micheeva", img: "img/1.jpg", order: 2},
-            {firstName: "Zoya", secondName: "Micheeva", img: "img/1.jpg", order: 4},
-            {firstName: "Liza", secondName: "Micheeva", img: "img/1.jpg", order: 3}
-        ];
+        $scope.people = {};
+        $scope.person = {};
+
+        $scope.people.find = function() {
+            People.query(function(data) {
+                $scope.people.data = data;
+            });
+        };
+
+        $scope.selectPerson = function (key) {
+            $scope.person.selected = key;
+        }
 
 	}
 ]);
@@ -1353,17 +1306,18 @@ angular.module('people').directive('people',
 );
 'use strict';
 
-//People service used to communicate People REST endpoints
-angular.module('people').factory('People', ['$resource',
-	function($resource) {
-		return $resource('people/:projectId', { projectId: '@_id'
-		}, {
-			update: {
-				method: 'PUT'
-			}
-		});
-	}
+angular.module('admin').factory('People', ['$resource',
+    function ($resource) {
+        return $resource('people/:personId', {
+            personId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
 ]);
+
 'use strict';
 
 // Configuring the Articles module
@@ -1404,14 +1358,29 @@ angular.module('projects').config(['$stateProvider',
 
 // Projects controller
 angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-	function($scope, $stateParams, $state, $location, Authentication, Projects) {
-		$scope.authentication = Authentication;
+    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
+        $scope.authentication = Authentication;
 
+        var Service = Projects;
+
+        $scope.page = {};
         $scope.projects = {};
+        $scope.projects.commerce = [];
+        $scope.projects.live = [];
 
-        $scope.project.find = function() {
-            Projects.query(function(data) {
-                $scope.projects = data;
+        $scope._organizeProducts = function (data) {
+            data.forEach(function (project) {
+                if (project.section === 'commerce') {
+                    $scope.projects.commerce.push(project);
+                } else {
+                    $scope.projects.live.push(project);
+                }
+            })
+        };
+
+        $scope.page.find = function () {
+            Service.query(function (data) {
+                $scope._organizeProducts(data);
             });
         };
 
@@ -1437,7 +1406,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
         $scope.projectsList = projects;
 
-	}
+    }
 ]);
 
 'use strict';
@@ -1455,6 +1424,34 @@ angular.module('projects').directive('projects',
         };
     }
 );
+
+'use strict';
+
+angular.module('admin').factory('Concepts', ['$resource',
+    function ($resource) {
+        return $resource('concepts/:projectId', {
+            projectId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
+'use strict';
+
+angular.module('admin').factory('Projects', ['$resource',
+    function ($resource) {
+        return $resource('projects/:projectId', {
+            projectId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
 
 'use strict';
 
