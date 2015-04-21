@@ -209,8 +209,8 @@ angular.module('admin').controller('AdminProjectsController', ['$scope', '$state
 
 'use strict';
 
-angular.module('admin').controller('AdminController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory',
-    function ($scope, $state, Authentication, $location, ProjectFactory) {
+angular.module('admin').controller('AdminController', ['$scope', '$state', 'Authentication', '$location',
+    function ($scope, $state, Authentication, $location) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
@@ -348,8 +348,8 @@ angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
 
 'use strict';
 
-angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'People',
-    function ($state, $location, People) {
+angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'AdminPeople',
+    function ($state, $location, AdminPeople) {
         var person = {};
 
         var init = function () {
@@ -479,7 +479,7 @@ angular.module('admin').factory('AdminConcepts', ['$resource',
 
 'use strict';
 
-angular.module('admin').factory('People', ['$resource',
+angular.module('admin').factory('AdminPeople', ['$resource',
     function ($resource) {
         return $resource('people/:personId', {
             personId: '@_id'
