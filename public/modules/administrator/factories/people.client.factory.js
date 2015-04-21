@@ -13,7 +13,7 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
             person.isCreateNewPerson = !personId;
 
             person.create = function () {
-                var instance = new People({
+                var instance = new AdminPeople({
                     fName: person.data.fName || '',
                     lName: person.data.lName || '',
                     position: person.data.position || '',
@@ -59,7 +59,7 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
             };
 
             person.find = function () {
-                People.query(function (data) {
+                AdminPeople.query(function (data) {
                     person.peopleArray = data;
                 },function (errorResponse) {
                     person.error = errorResponse.data.message;
@@ -75,7 +75,7 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
             };
 
             person.findById = function (objId) {
-                return People.get({
+                return AdminPeople.get({
                     personId: objId
                 },function (data) {
                     person.data = data;
@@ -86,7 +86,7 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
             };
 
             person.findOne = function () {
-                People.get({
+                AdminPeople.get({
                     personId: personId
                 }, function (data) {
                     person.data = data;
