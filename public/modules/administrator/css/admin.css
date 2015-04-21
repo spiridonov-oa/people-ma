@@ -21,18 +21,19 @@ body {
 }
 
 .admin-page h1 {
-    padding: 15px 0;
+    font-size: 24px;
     margin-left: 65px;
 
 }
 .admin-page .username {
     position: absolute;
     top: 12px;
-    right: 100px;
+    right: 15px;
 }
 .admin-page .admin-menu {
     float: left;
     width: 200px;
+    margin-top: 10px;
     margin-right: -200px;
 }
 
@@ -43,6 +44,40 @@ body {
     padding-left: 240px;
     padding-right: 450px;
 }
+.admin-page .admin-list-item {
+    min-height: 100px;
+    position: relative;
+}
+.admin-page .item-icon {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 10px 10px 0 0;
+    border: 1px solid #333;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+}
+.admin-page .item-details {
+    margin-left: 80px;
+}
+.admin-page .list-order {
+    float: right;
+}
+.admin-page .item-icon img{
+    width: 100%;
+}
+
+.admin-page.admin-people .admin-list-item {
+    min-height: 82px;
+}
+.admin-page.admin-people .item-icon {
+    margin-top: 0;
+}
+.admin-page.admin-people .item-details {
+    margin-top: 10px;
+}
+
 
 .create-new-btn {
     position: absolute;
