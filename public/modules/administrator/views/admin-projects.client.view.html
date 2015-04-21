@@ -1,6 +1,7 @@
 <div class="admin-page admin-projects">
     <div class="page-wrapper">
         <h1>Admin panel</h1>
+        <div class="pull-right"><a ng-href="#!/settings/profile">{{authentication.user.username}}</a></div>
         <div class="messages">{{project.error}}</div>
         <admin-menu></admin-menu>
         <div class="list">
