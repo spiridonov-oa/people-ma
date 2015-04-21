@@ -1,4 +1,4 @@
-<section class="projects-page animate-page" data-ng-controller="ProjectsController">
+<section class="projects-page animate-page" data-ng-controller="ProjectsController" data-ng-init="page.find()">
     <div class="projects-bg">
         <div class="projects-bg-top-img"></div>
         <div class="projects-bg-bottom-img"></div>
@@ -9,13 +9,13 @@
         <div class="line">
             <div class="projects-type table-cell">Commerce</div>
             <div class="table-cell">
-                <projects set="projectsList.commerce" type="commerce"></projects>
+                <projects set="projects.commerce" type="commerce"></projects>
             </div>
         </div>
         <div class="line">
             <div class="projects-type table-cell">Live</div>
             <div class="table-cell">
-                <projects set="projectsList.live" type="live"></projects>
+                <projects set="projects.live" type="live"></projects>
             </div>
         </div>
     </div>

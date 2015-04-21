@@ -109,16 +109,13 @@ exports.projectByProperties = function(req, res, next, props) {
 };
 
 exports.projects = function(req, res) {
-    console.log("projects");
     Project.find({type: 'project'}).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
         console.log("res projects");
         if (err) {
-            console.log("err");
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            console.log("succ");
             res.jsonp(projects);
         }
     });

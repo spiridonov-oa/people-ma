@@ -1,9 +1,11 @@
 <div class="admin-page admin-projects">
     <div class="page-wrapper">
         <h1>Admin panel</h1>
+        <div class="messages">{{project.error}}</div>
         <admin-menu></admin-menu>
         <div class="list">
             <div class="list-group">
+                <div ng-if="!project.objArray.length" class="empty">The list is empty</div>
 
                 <a ng-href="{{project.path}}/{{projectItem._id}}"
                    ng-repeat="projectItem in project.objArray | orderBy:'order'"
@@ -17,7 +19,7 @@
         <div class="form">
             <h3 ng-if="!project.isCreateNewProject">{{project.data.name}}</h3>
             <h3 ng-if="project.isCreateNewProject">New Project Information</h3>
-            <div><a class="btn btn-success create-new-btn" ng-if="!project.isCreateNewProject" ng-href="#!{{project.path}}/">+ Create New</a></div>
+            <div><a class="btn btn-success create-new-btn" ng-if="!project.isCreateNewProject" ng-href="{{project.path}}">+ Create New</a></div>
             <form name="articleForm" class="form-horizontal" data-ng-submit="project.submit()" novalidate>
                 <fieldset>
                     <div class="input-group" >
@@ -29,7 +31,7 @@
                     </div>
                     <div class="input-group">
                         <label class="input-group-addon" for="icon">Icon</label>
-                        <input name="icon" data-ng-model="project.data.photos" id="icon" class="form-control" placeholder="Icon" type="text">
+                        <input name="icon" data-ng-model="project.data.icon" id="icon" class="form-control" placeholder="Icon" type="text">
                     </div>
                     <div class="input-group">
                         <label class="input-group-addon" for="times">Times</label>

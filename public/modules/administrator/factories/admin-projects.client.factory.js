@@ -19,6 +19,7 @@ angular.module('admin').factory('ProjectFactory', ['$state', '$location',
                     times: project.data.times || '',
                     description: project.data.description || '',
                     tags: project.data.tags,
+                    icon: project.data.icon,
                     photos: [],
                     section: project.data.section || 'commerce',
                     type: projectType,
@@ -75,8 +76,6 @@ angular.module('admin').factory('ProjectFactory', ['$state', '$location',
                 }
             };
 
-            project.find();
-
             project.findById = function (objId) {
                 return Service.get({
                     projectId: objId
@@ -88,6 +87,7 @@ angular.module('admin').factory('ProjectFactory', ['$state', '$location',
                     projectId: projectId
                 }, function (data) {
                     project.data = data;
+                    project.find();
                 });
             };
 
@@ -95,6 +95,7 @@ angular.module('admin').factory('ProjectFactory', ['$state', '$location',
                 project.findOne();
             } else {
                 project.data = {};
+                project.find();
             }
 
             return project;

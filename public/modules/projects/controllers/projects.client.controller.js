@@ -2,14 +2,29 @@
 
 // Projects controller
 angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-	function($scope, $stateParams, $state, $location, Authentication, Projects) {
-		$scope.authentication = Authentication;
+    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
+        $scope.authentication = Authentication;
 
+        var Service = Projects;
+
+        $scope.page = {};
         $scope.projects = {};
+        $scope.projects.commerce = [];
+        $scope.projects.live = [];
 
-        $scope.project.find = function() {
-            Projects.query(function(data) {
-                $scope.projects = data;
+        $scope._organizeProducts = function (data) {
+            data.forEach(function (project) {
+                if (project.section === 'commerce') {
+                    $scope.projects.commerce.push(project);
+                } else {
+                    $scope.projects.live.push(project);
+                }
+            })
+        };
+
+        $scope.page.find = function () {
+            Service.query(function (data) {
+                $scope._organizeProducts(data);
             });
         };
 
@@ -35,5 +50,5 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
         $scope.projectsList = projects;
 
-	}
+    }
 ]);
