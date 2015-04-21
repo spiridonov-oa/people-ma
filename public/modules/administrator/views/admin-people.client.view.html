@@ -2,7 +2,9 @@
     <div class="page-wrapper">
         <h1>Admin panel</h1>
         <div class="username"><a ng-href="#!/settings/profile">{{authentication.user.username}}</a></div>
-        <div class="messages">{{person.error}}</div>
+
+
+
         <admin-menu></admin-menu>
         <div class="list">
             <div ng-if="!person.peopleArray.length" class="empty">The list is empty</div>
@@ -10,18 +12,34 @@
             <div class="list-group">
                 <a ng-href="{{person.path}}/{{personItem._id}}"
                    ng-repeat="personItem in person.peopleArray | orderBy:'order'"
-                   class="list-group-item"
+                   class="list-group-item admin-list-item"
                    ng-class="{ 'active': personItem._id === person.currentPersonId}">
-                    <h4 class="list-group-item-heading">{{personItem.fName}}</h4>
-                    <p class="list-group-item-text">{{personItem.position}}</p>
+                    <div class="list-order">{{personItem.order}}</div>
+                    <div class="item-icon"><img ng-src="{{personItem.icon}}" alt=""/></div>
+                    <div class="item-details">
+                        <h4 class="list-group-item-heading">{{personItem.fName + ' ' + personItem.lName}}</h4>
+                        <p class="list-group-item-text">{{personItem.position}}</p>
+                    </div>
                 </a>
 
             </div>
         </div>
         <div class="form">
-            <h3 ng-if="!person.isCreateNewPerson">{{person.data.fName}}</h3>
+            <h3 ng-if="!person.isCreateNewPerson">{{personItem.fName + ' ' + personItem.lName}}</h3>
             <h3 ng-if="person.isCreateNewPerson">New Person Information</h3>
+
             <div><a class="btn btn-success create-new-btn" ng-if="!person.isCreateNewPerson" ng-href="{{person.path}}/">+ Create New</a></div>
+
+            <div class="message-wrapper" ng-if="person.error">
+                <div class="message">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        {{person.error}}
+                    </div>
+                </div>
+            </div>
+
             <form name="articleForm" class="form-horizontal" data-ng-submit="person.submit()" novalidate>
                 <fieldset>
                     <div class="input-group" >
