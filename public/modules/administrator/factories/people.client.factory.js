@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'People',
-    function ($state, $location, People) {
+angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'AdminPeople',
+    function ($state, $location, AdminPeople) {
         var person = {};
 
         var init = function () {
