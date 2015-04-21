@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('admin').factory('ProjectFactory', ['$state', '$location',
+angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
     function ($state, $location) {
         var project = {};
 

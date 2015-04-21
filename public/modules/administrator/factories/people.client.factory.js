@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People',
+angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'People',
     function ($state, $location, People) {
         var person = {};
 
@@ -61,6 +61,8 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
             person.find = function () {
                 People.query(function (data) {
                     person.peopleArray = data;
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 
@@ -75,6 +77,11 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
             person.findById = function (objId) {
                 return People.get({
                     personId: objId
+                },function (data) {
+                    person.data = data;
+                    person.find();
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 
@@ -84,6 +91,8 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
                 }, function (data) {
                     person.data = data;
                     person.find();
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 

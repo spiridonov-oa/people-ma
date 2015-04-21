@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('admin').controller('AdminPeopleController', ['$scope', '$state', 'Authentication', '$location', 'PersonFactory',
-    function($scope, $state, Authentication, $location, PersonFactory) {
+angular.module('admin').controller('AdminPeopleController', ['$scope', '$state', 'Authentication', '$location', 'AdminPersonFactory',
+    function($scope, $state, Authentication, $location, AdminPersonFactory) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.person = PersonFactory.getPerson();
+
+        $scope.person = AdminPersonFactory.getPerson();
 
     }
 ]);

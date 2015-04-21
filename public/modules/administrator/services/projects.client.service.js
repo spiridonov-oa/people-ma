@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('admin').factory('Projects', ['$resource',
+angular.module('admin').factory('AdminProjects', ['$resource',
     function ($resource) {
         return $resource('projects/:projectId', {
             projectId: '@_id'

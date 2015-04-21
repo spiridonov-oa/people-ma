@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory', 'Projects',
-    function($scope, $state, Authentication, $location, ProjectFactory, Projects) {
+angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'AdminProjectFactory', 'AdminProjects',
+    function($scope, $state, Authentication, $location, AdminProjectFactory, AdminProjects) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.project = ProjectFactory.getProject('project', Projects);
+        $scope.project = AdminProjectFactory.getProject('project', AdminProjects);
 
     }
 ]);
