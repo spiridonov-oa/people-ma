@@ -78,8 +78,12 @@ body {
     margin-top: 10px;
 }
 
-
-.create-new-btn {
+.admin-page .message-wrapper {
+    position: absolute;
+    width: 340px;
+    top: 5px;
+}
+.admin-page .create-new-btn {
     position: absolute;
     top: -32px;
     width: 140px;
