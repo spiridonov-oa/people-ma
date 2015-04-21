@@ -30,8 +30,14 @@ angular.module('admin').config(['$stateProvider',
                 templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
             }).
             state('adminPeoples', {
-                url: '/admin/peoples',
-                templateUrl: 'modules/administrator/views/admin-peoples.client.view.html'
+                url: '/admin/people',
+                controller: 'AdminPeopleController',
+                templateUrl: 'modules/administrator/views/admin-people.client.view.html'
+            }).
+            state('adminCurrentPerson', {
+                url: '/admin/people/:personId',
+                controller: 'AdminPeopleController',
+                templateUrl: 'modules/administrator/views/admin-people.client.view.html'
             });
     }
 ]);

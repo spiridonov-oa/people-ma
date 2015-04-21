@@ -1,12 +1,18 @@
-<section data-ng-controller="PeopleController" class="people-page animate-page">
+<section data-ng-controller="PeopleController" data-ng-init="people.find()" class="people-page animate-page">
     <div class="people-bg"></div>
 
     <div class="wrapper">
-        <div data-ng-repeat="(key, person) in people | orderBy:'order'">
-            <div class="person-position person-position-{{key}}" >
+        <div data-ng-repeat="(key, person) in people.data | orderBy:'order'">
+            <div class="person-position person-position-{{key}}"
+                    ng-click="selectPerson(key)"
+                    ng-class="{'selected': person.selected === key}">
                 <div class="star"></div>
-                <div class="name" data-ng-bind="person.firstName"></div>
+                <div class="name" >
+                    <span data-ng-bind="person.fName"></span>
+                    <span data-ng-bind="person.lName"></span>
+                </div>
             </div>
         </div>
+
     </div>
 </section>

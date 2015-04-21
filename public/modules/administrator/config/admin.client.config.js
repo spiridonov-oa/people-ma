@@ -7,6 +7,6 @@ angular.module('admin').run(['Menus',
 		Menus.addMenuItem('admin-menu', 'Home', 'admin', 'dropdown', '/admin');
         Menus.addMenuItem('admin-menu', 'Projects', 'adminProjects', 'dropdown', '/admin/projects');
         Menus.addMenuItem('admin-menu', 'Concepts', 'adminConcepts', 'dropdown', '/admin/concepts');
-        Menus.addMenuItem('admin-menu', 'Peoples', 'adminPeoples', 'dropdown', '/admin/peoples');
+        Menus.addMenuItem('admin-menu', 'People', 'adminPeople', 'dropdown', '/admin/people');
 	}
 ]);
