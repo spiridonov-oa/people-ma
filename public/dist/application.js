@@ -184,24 +184,25 @@ angular.module('admin').controller('AdminConceptsController', ['$scope', '$state
 
 'use strict';
 
-angular.module('admin').controller('AdminPeopleController', ['$scope', '$state', 'Authentication', '$location', 'PersonFactory',
-    function($scope, $state, Authentication, $location, PersonFactory) {
+angular.module('admin').controller('AdminPeopleController', ['$scope', '$state', 'Authentication', '$location', 'AdminPersonFactory',
+    function($scope, $state, Authentication, $location, AdminPersonFactory) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.person = PersonFactory.getPerson();
+
+        $scope.person = AdminPersonFactory.getPerson();
 
     }
 ]);
 
 'use strict';
 
-angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory', 'Projects',
-    function($scope, $state, Authentication, $location, ProjectFactory, Projects) {
+angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'AdminProjectFactory', 'Projects',
+    function($scope, $state, Authentication, $location, AdminProjectFactory, Projects) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.project = ProjectFactory.getProject('project', Projects);
+        $scope.project = AdminProjectFactory.getProject('project', Projects);
 
     }
 ]);
@@ -235,7 +236,7 @@ angular.module('admin').directive('adminMenu', ['Menus', '$state',
 
 'use strict';
 
-angular.module('admin').factory('ProjectFactory', ['$state', '$location',
+angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
     function ($state, $location) {
         var project = {};
 
@@ -347,7 +348,7 @@ angular.module('admin').factory('ProjectFactory', ['$state', '$location',
 
 'use strict';
 
-angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People',
+angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'People',
     function ($state, $location, People) {
         var person = {};
 
@@ -408,6 +409,8 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
             person.find = function () {
                 People.query(function (data) {
                     person.peopleArray = data;
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 
@@ -422,6 +425,11 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
             person.findById = function (objId) {
                 return People.get({
                     personId: objId
+                },function (data) {
+                    person.data = data;
+                    person.find();
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 
@@ -431,6 +439,8 @@ angular.module('admin').factory('PersonFactory', ['$state', '$location', 'People
                 }, function (data) {
                     person.data = data;
                     person.find();
+                },function (errorResponse) {
+                    person.error = errorResponse.data.message;
                 });
             };
 
