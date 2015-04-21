@@ -172,12 +172,12 @@ angular.module('admin').config(['$stateProvider',
 
 'use strict';
 
-angular.module('admin').controller('AdminConceptsController', ['$scope', '$state', 'Authentication', '$location', 'ProjectFactory', 'Concepts',
-    function($scope, $state, Authentication, $location, ProjectFactory, Concepts) {
+angular.module('admin').controller('AdminConceptsController', ['$scope', '$state', 'Authentication', '$location', 'AdminProjectFactory', 'AdminConcepts',
+    function($scope, $state, Authentication, $location, AdminProjectFactory, AdminConcepts) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.project = ProjectFactory.getProject('concept', Concepts);
+        $scope.project = AdminProjectFactory.getProject('concept', AdminConcepts);
 
     }
 ]);
@@ -197,12 +197,12 @@ angular.module('admin').controller('AdminPeopleController', ['$scope', '$state',
 
 'use strict';
 
-angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'AdminProjectFactory', 'Projects',
-    function($scope, $state, Authentication, $location, AdminProjectFactory, Projects) {
+angular.module('admin').controller('AdminProjectsController', ['$scope', '$state', 'Authentication', '$location', 'AdminProjectFactory', 'AdminProjects',
+    function($scope, $state, Authentication, $location, AdminProjectFactory, AdminProjects) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        $scope.project = AdminProjectFactory.getProject('project', Projects);
+        $scope.project = AdminProjectFactory.getProject('project', AdminProjects);
 
     }
 ]);
@@ -465,7 +465,7 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'P
 
 'use strict';
 
-angular.module('admin').factory('Concepts', ['$resource',
+angular.module('admin').factory('AdminConcepts', ['$resource',
     function ($resource) {
         return $resource('concepts/:projectId', {
             projectId: '@_id'
@@ -493,7 +493,7 @@ angular.module('admin').factory('People', ['$resource',
 
 'use strict';
 
-angular.module('admin').factory('Projects', ['$resource',
+angular.module('admin').factory('AdminProjects', ['$resource',
     function ($resource) {
         return $resource('projects/:projectId', {
             projectId: '@_id'
