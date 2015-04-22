@@ -34,6 +34,8 @@
     bottom: -10vw;
     width: 45vw;
     height: 45vw;
+    background: url("/img/earth.png");
+    background-size: cover;
 }
 
 /**************************************************************************************
