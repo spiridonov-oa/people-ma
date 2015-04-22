@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'peopleMa';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angular-carousel', 'slick'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {
@@ -137,7 +137,7 @@ angular.module('admin').config(['$stateProvider',
                 url: '/admin',
                 templateUrl: 'modules/administrator/views/admin.client.view.html'
             }).
-            state('adminprojects', {
+            state('adminProjects', {
                 url: '/admin/projects',
                 controller: 'AdminProjectsController',
                 templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
@@ -176,8 +176,14 @@ angular.module('admin').controller('AdminConceptsController', ['$scope', '$state
     function($scope, $state, Authentication, $location, AdminProjectFactory, AdminConcepts) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+
+        function isAuthorised () {
+            return ($scope.authentication.user && $scope.authentication.user._id);
+        }
+
+        if (!isAuthorised()) {
             $location.path('/signin');
+            return;
         }
 
         $scope.project = AdminProjectFactory.getProject('concept', AdminConcepts);
@@ -191,8 +197,14 @@ angular.module('admin').controller('AdminPeopleController', ['$scope', '$state',
     function($scope, $state, Authentication, $location, AdminPersonFactory) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+
+        function isAuthorised () {
+            return ($scope.authentication.user && $scope.authentication.user._id);
+        }
+
+        if (!isAuthorised()) {
             $location.path('/signin');
+            return;
         }
 
         $scope.person = AdminPersonFactory.getPerson();
@@ -206,8 +218,14 @@ angular.module('admin').controller('AdminProjectsController', ['$scope', '$state
     function($scope, $state, Authentication, $location, AdminProjectFactory, AdminProjects) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+
+        function isAuthorised () {
+            return ($scope.authentication.user && $scope.authentication.user._id);
+        }
+
+        if (!isAuthorised()) {
             $location.path('/signin');
+            return;
         }
 
         $scope.project = AdminProjectFactory.getProject('project', AdminProjects);
@@ -1440,24 +1458,29 @@ angular.module('admin').factory('Concepts', ['$resource',
 
 // Projects controller
 angular.module('projects').controller('ProjectGalleryController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-    function ($scope, $stateParams, $state, $location, Authentication, Projects, Con) {
+    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
         $scope.authentication = Authentication;
 
         var Service = Projects;
 
+        $scope.goBack = function () {
+            $state.go($state.previous.name);
+        };
+
+
         $scope.project = {};
         $scope.project.photos = ['/img/projects/pr/pr1.png', '/img/projects/pr/pr2.png'];
 
-
+/*
         $scope.findById = function (objId) {
             return Service.get({
                 projectId: objId
             }, function (data) {
-                $scope.project = data;
+                //$scope.project = data;
             });
-        };
+        };*/
 
-        $scope.findById($stateParams.projectId);
+        //$scope.findById($stateParams.projectId);
 
     }
 ]);
