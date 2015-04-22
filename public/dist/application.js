@@ -137,7 +137,7 @@ angular.module('admin').config(['$stateProvider',
                 url: '/admin',
                 templateUrl: 'modules/administrator/views/admin.client.view.html'
             }).
-            state('adminProjects', {
+            state('adminprojects', {
                 url: '/admin/projects',
                 controller: 'AdminProjectsController',
                 templateUrl: 'modules/administrator/views/admin-projects.client.view.html'
@@ -176,6 +176,9 @@ angular.module('admin').controller('AdminConceptsController', ['$scope', '$state
     function($scope, $state, Authentication, $location, AdminProjectFactory, AdminConcepts) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+            $location.path('/signin');
+        }
 
         $scope.project = AdminProjectFactory.getProject('concept', AdminConcepts);
 
@@ -188,7 +191,9 @@ angular.module('admin').controller('AdminPeopleController', ['$scope', '$state',
     function($scope, $state, Authentication, $location, AdminPersonFactory) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-
+        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+            $location.path('/signin');
+        }
 
         $scope.person = AdminPersonFactory.getPerson();
 
@@ -201,6 +206,9 @@ angular.module('admin').controller('AdminProjectsController', ['$scope', '$state
     function($scope, $state, Authentication, $location, AdminProjectFactory, AdminProjects) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+            $location.path('/signin');
+        }
 
         $scope.project = AdminProjectFactory.getProject('project', AdminProjects);
 
@@ -213,6 +221,9 @@ angular.module('admin').controller('AdminController', ['$scope', '$state', 'Auth
     function ($scope, $state, Authentication, $location) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
+        if (!$scope.authentication.user || !$scope.authentication.user._id) {
+            $location.path('/signin');
+        }
 
 
     }
@@ -236,121 +247,25 @@ angular.module('admin').directive('adminMenu', ['Menus', '$state',
 
 'use strict';
 
-angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
-    function ($state, $location) {
-        var project = {};
-
-        var init = function (projectType, Service) {
-
-            var projectId = $state.params['projectId'];
-            var projectUrl = '/admin/' + projectType + 's';
-
-            project.path = '#!/admin/' + projectType + 's';
-            project.currentProjectId = projectId;
-            project.isCreateNewProject = !projectId;
-
-            project.create = function () {
-                var instance = new Service({
-                    name: project.data.name || '',
-                    times: project.data.times || '',
-                    description: project.data.description || '',
-                    tags: project.data.tags,
-                    icon: project.data.icon,
-                    photos: [],
-                    section: project.data.section || 'commerce',
-                    type: projectType,
-                    order: project.data.order || 0
-                });
-                instance.$save(function (response) {
-                    $location.path(projectUrl);
-                    project.find();
-                    project.data = {};
-                }, function (errorResponse) {
-                    project.error = errorResponse.data.message;
-                });
-            };
-
-            project.remove = function (data) {
-                if (data) {
-                    data.$remove();
-
-                    for (var i in project.objArray) {
-                        if (project.objArray[i] === data) {
-                            project.objArray.splice(i, 1);
-                        }
-                    }
-                } else {
-                    project.data.$remove(function () {
-                        $location.path(projectUrl);
-                        project.find();
-                    });
-                }
-            };
-
-            project.update = function () {
-                var data = project.data;
-
-                data.$update(function () {
-                    $location.path(projectUrl + '/' + data._id);
-                    project.find();
-                }, function (errorResponse) {
-                    project.error = errorResponse.data.message;
-                });
-            };
-
-            project.find = function (props) {
-                Service.query(function (data) {
-                    project.objArray = data;
-                });
-            };
-
-            project.submit = function () {
-                if (project.isCreateNewProject) {
-                    project.create();
-                } else {
-                    project.update();
-                }
-            };
-
-            project.findById = function (objId) {
-                return Service.get({
-                    projectId: objId
-                });
-            };
-
-            project.findOne = function () {
-                Service.get({
-                    projectId: projectId
-                }, function (data) {
-                    project.data = data;
-                    project.find();
-                });
-            };
-
-            if (project.currentProjectId) {
-                project.findOne();
-            } else {
-                project.data = {};
-                project.find();
-            }
-
-            return project;
-        };
-
-        return {
-            getProject: function (type, Service) {
-                return init(type, Service);
-            }
-        }
-    }
-]);
-
-
-'use strict';
-
 angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'AdminPeople',
     function ($state, $location, AdminPeople) {
         var person = {};
+
+        function Service(options) {
+            this.unitId = options.unitId;
+            this.unitUrl = options.unitUrl;
+            this.unitPath = options.unitPath;
+        }
+
+        Service.prototype.create = function(data) {
+
+        };
+        Service.prototype.submit = function() { /* ... */ };
+        Service.prototype.remove = function() { /* ... */ };
+        Service.prototype.find = function() { /* ... */ };
+        Service.prototype.findOne = function() { /* ... */ };
+
+        return Service;
 
         var init = function () {
             var personId = $state.params['personId'];
@@ -457,6 +372,265 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
         return {
             getPerson: function () {
                 return init();
+            }
+        }
+    }
+]);
+
+
+'use strict';
+
+angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'AdminPeople',
+    function ($state, $location, AdminPeople) {
+        var person = {};
+
+        var init = function () {
+            var personId = $state.params['personId'];
+            var personUrl = '/admin/people';
+
+            person.path = '#!/admin/people';
+            person.currentPersonId = personId;
+            person.isCreateNewPerson = !personId;
+
+            person.create = function () {
+                var instance = new AdminPeople({
+                    fName: person.data.fName || '',
+                    lName: person.data.lName || '',
+                    position: person.data.position || '',
+                    photo: person.data.photo || '',
+                    ava: person.data.ava || '',
+                    order: person.data.order || 0
+                });
+                instance.$save(function (response) {
+                    $location.path(personUrl);
+                    person.find();
+                    person.data = {};
+                }, function (errorResponse) {
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            person.remove = function (data) {
+                if (data) {
+                    data.$remove();
+
+                    for (var i in person.peopleArray) {
+                        if (person.peopleArray[i] === data) {
+                            person.peopleArray.splice(i, 1);
+                        }
+                    }
+                } else {
+                    person.data.$remove(function () {
+                        $location.path(personUrl);
+                        person.find();
+                    });
+                }
+            };
+
+            person.update = function () {
+                var data = person.data;
+
+                data.$update(function () {
+                    $location.path(personUrl + '/' + data._id);
+                    person.find();
+                }, function (errorResponse) {
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            person.find = function () {
+                AdminPeople.query(function (data) {
+                    person.peopleArray = data;
+                },function (errorResponse) {
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            person.submit = function () {
+                if (person.isCreateNewPerson) {
+                    person.create();
+                } else {
+                    person.update();
+                }
+            };
+
+            person.findById = function (objId) {
+                return AdminPeople.get({
+                    personId: objId
+                },function (data) {
+                    person.data = data;
+                    person.find();
+                },function (errorResponse) {
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            person.findOne = function () {
+                AdminPeople.get({
+                    personId: personId
+                }, function (data) {
+                    person.data = data;
+                    person.find();
+                },function (errorResponse) {
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            if (person.currentPersonId) {
+                person.findOne();
+            } else {
+                person.data = {};
+                person.find();
+            }
+
+            return person;
+        };
+
+        return {
+            getPerson: function () {
+                return init();
+            }
+        }
+    }
+]);
+
+
+'use strict';
+
+angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
+    function ($state, $location) {
+        var project = {};
+
+        var init = function (projectType, Service) {
+
+            var projectId = $state.params['projectId'];
+            var projectUrl = '/admin/' + projectType + 's';
+
+            project.path = '#!/admin/' + projectType + 's';
+            project.currentProjectId = projectId;
+            project.isCreateNewProject = !projectId;
+
+            project.create = function () {
+                var instance = new Service({
+                    name: project.data.name || '',
+                    times: project.data.times || '',
+                    description: project.data.description || '',
+                    tags: project.data.tags,
+                    icon: project.data.icon,
+                    photos: [],
+                    section: project.data.section || 'commerce',
+                    type: projectType,
+                    order: project.data.order || 0
+                });
+                instance.$save(function (response) {
+                    $location.path(projectUrl);
+                    project.find();
+                    project.data = {};
+                }, function (errorResponse) {
+                    if (errorResponse.data) {
+                        project.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            project.remove = function (data) {
+                if (data) {
+                    data.$remove();
+
+                    for (var i in project.objArray) {
+                        if (project.objArray[i] === data) {
+                            project.objArray.splice(i, 1);
+                        }
+                    }
+                } else {
+                    project.data.$remove(function () {
+                        $location.path(projectUrl);
+                        project.find();
+                    });
+                }
+            };
+
+            project.update = function () {
+                var data = project.data;
+
+                data.$update(function () {
+                    $location.path(projectUrl + '/' + data._id);
+                    project.find();
+                }, function (errorResponse) {
+                    if (errorResponse.data) {
+                        project.error = errorResponse.data.message;
+                    }
+                });
+            };
+
+            project.find = function (props) {
+                var date = new Date();
+                console.log('find ' + projectType);
+                Service.query(function (data) {
+                    project.objArray = data;
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
+                });
+            };
+
+            project.submit = function () {
+                if (project.isCreateNewProject) {
+                    project.create();
+                } else {
+                    project.update();
+                }
+            };
+
+            project.findById = function (objId) {
+                var date = new Date();
+                console.log('findById ' + projectType);
+                return Service.get({
+                    projectId: objId
+                }, function () {
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
+                });
+            };
+
+            project.findOne = function () {
+                var date = new Date();
+                console.log('findOne ' + projectType);
+                Service.get({
+                    projectId: projectId
+                }, function (data) {
+                    project.data = data;
+                    project.find();
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
+                });
+            };
+
+            if (project.currentProjectId) {
+                project.findOne();
+            } else {
+                project.data = {};
+                project.find();
+            }
+
+            return project;
+        };
+
+        return {
+            getProject: function (type, Service) {
+                return init(type, Service);
             }
         }
     }
@@ -724,11 +898,12 @@ angular.module('articles').factory('Articles', ['$resource',
 angular.module('core').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
-        Menus.addMenuItem('mainmenu', 'Concept', 'concept', 'dropdown', '/concept', true, null, 2);
+        Menus.addMenuItem('mainmenu', 'Concepts', 'concepts', 'dropdown', '/concepts', true, null, 2);
 
         Menus.addMenuItem('mainmenu', 'News', 'news', 'dropdown', '/news', true, null, 5);
 	}
 ]);
+
 'use strict';
 
 // Setting up route
@@ -784,254 +959,18 @@ angular.module('core').controller('HomeController', ['$scope', '$state', 'Authen
 ]);
 
 'use strict';
-/*
-angular.module('core').directive('lens', ['$state', '$rootScope', function ($state, $rootScope) {
-
-    var lens = (function () {
-        var items, wrappedItem, jQelement;
-
-        function init (element) {
-            jQelement = $(element);
-            items = jQelement.find('li a span');
-            prepareItems(items);
-        }
-
-        function prepareItems (items) {
-            items.each(function (element) {
-                splitStringBySymbols(element.text())
-            });
-        }
-
-        function splitStringBySymbols (str) {
-            for (var i = 0, len = str.length; i < len; i++) {
-                wrappedItem += wrapSymbolsInSpan(str[i]);
-                console.log(wrappedItem);
-            }
-        }
-
-        function wrapSymbolsInSpan (symbol) {
-            return '<span>' + symbol + '</span>';
-        }
-
-        return {
-            init: init
-        }
-    }());
-
-    function link (scope, element, attrs) {
-        $( document ).ready(lens.init(element));
-    }
-
-    return {
-        restrict: 'AE',
-        link: link
-    };
-}]);
-      */
-
-'use strict';
 
 angular.module('core').directive('mainmenu', ['Menus',
     function (Menus) {
         return {
             restrict: 'AE',
-            templateUrl: 'modules/core/directives/template/mainmenu.view.html',
+            templateUrl: 'modules/core/js/template/mainmenu.view.html',
             link: function (scope) {
                 scope.menu = Menus.getMenu('mainmenu');
                 scope.menuItemSize = Math.floor(12 / scope.menu.length);
         }
     };
 }]);
-
-'use strict';
-
-angular.module('core').directive('stateClass', ['$state', '$rootScope', function ($state, $rootScope) {
-
-    var pageAnimator = {
-        animate: function (element, fromState, toState) {
-            this.page = toState.name;
-            this.prevPage = fromState.name || null;
-            this.animationTime = 1000;
-            this.$body = jQuery(element);
-            this.$circle = this.$body.find('.circle');
-            this.pages = {
-                projects: 'projects',
-                home: 'home',
-                concept: 'concept',
-                aboutAs: 'about',
-                people: 'people'
-            };
-
-            this.vw = jQuery(window).width()/100;
-            this.vh = jQuery(window).height()/100;
-
-            //this[this.page + 'Animate']();
-            this.animateCircle();
-        },
-
-        homeAnimate: function () {
-            var prevPage = this.prevPage;
-            var animationTime = this.animationTime;
-        },
-
-        projectsAnimate: function () {
-            var prevPage = this.prevPage;
-            var animationTime = this.animationTime;
-            var $projectsPage = this.$body.find('.' + this.pages.projects + '-page');
-            var vw = this.vw;
-
-            $projectsPage.css('opacity', 0);
-
-           /* $projectsPage.animate({
-                opacity: 1
-            }, {
-                duration: animationTime * 3,
-                done: animateBg
-            });*/
-
-            function animateBg () {
-                var img1 = $projectsPage.find('.projects-bg-top-img');
-                var img2 = $projectsPage.find('.projects-bg-bottom-img');
-                img1.height(50*vw).width(50*vw).addClass('animateBg');
-                img2.height(50*vw).width(50*vw).addClass('animateBg');
-            }
-
-            console.log('projectsAnimate');
-        },
-
-        conceptAnimate: function () {
-            var prevPage = this.prevPage;
-            var animationTime = this.animationTime;
-        },
-
-        aboutAnimate: function () {
-            var prevPage = this.prevPage;
-            var animationTime = this.animationTime;
-        },
-
-        peopleAnimate: function () {
-            var prevPage = this.prevPage;
-            var animationTime = this.animationTime;
-        },
-
-        animateCircle: function (callback) {
-            var $circle = this.$circle;
-            var animationTime = this.animationTime;
-            var callback = typeof callback === 'function' ? callback : function(){};
-            $circle.stop();
-
-            var getOptions = function (time) {
-                time = time || animationTime;
-                return {
-                    duration: time,
-                    done: callback
-                }
-            };
-
-            //from Home to Projects
-            if (this.page === this.pages.projects) {
-                if (this.prevPage === this.pages.home) {
-                    $circle.animate({
-                        bottom: '60%'
-                    }, getOptions(animationTime/2))
-                        .animate({
-                        right: '10%'
-                    }, getOptions(animationTime/2));
-                } else {
-                    $circle.animate({
-                        bottom: '60%',
-                        right: '10%',
-                        height: '10em',
-                        width: '10em'
-                    }, getOptions());
-                }
-            }
-
-            //from Projects to Home
-            if (this.page === this.pages.home) {
-                if (this.prevPage === this.pages.projects) {
-                    $circle.animate({
-                        right: '58%'
-                    }, getOptions(animationTime/2)).animate({
-                        bottom: '0'
-                    }, getOptions(animationTime/2));
-                } else {
-                    $circle.animate({
-                        right: '58%',
-                        bottom: '0',
-                        height: '10em',
-                        width: '10em'
-                    }, getOptions());
-                }
-            }
-        },
-
-        resizeWindow: function () {
-            var screenWidth = window.outerWidth();
-            var screenHeight = window.outerHeight();
-            if (screenWidth / screenHeight > 2) {
-                this.$body.width(screenWidth / 2);
-            }
-        }
-    };
-
-    function link (scope, element, attrs) {
-        function stateChangeStartHandler (e, toState, toParams, fromState, fromParams) {
-            scope.body = scope.body || {};
-            scope.body.class = '';
-
-            if(fromState.name) {
-                scope.body.class = ' from-' + fromState.name + ' ';
-            }
-
-            scope.body.class += toState.name + ' ';
-            //console.log('scope.body.class: ' + scope.body.class);
-            pageAnimator.animate(element, fromState, toState);
-
-        }
-
-       /* $animate.leave(element).then(function() {
-            scope.$apply(function() {
-                console.log(' $animate.leave');
-            });
-        });*/
-
-        $rootScope.$on('$stateChangeStart', stateChangeStartHandler);
-
-    }
-
-    return {
-        restrict: 'AE',
-        link: link
-    };
-}])
-    /*
-    .animation('.view', function() {
-
-        return {
-            enter: function(element, done) {
-                //run the animation here and call done when the animation is complete
-                console.log('enter');
-
-                element.addClass('long-animation');
-
-                return function(cancelled) {
-                    console.log('enter return');
-                    //this (optional) function will be called when the animation
-                    //completes or when the animation is cancelled (the cancelled
-                    //flag will be set to true if cancelled).
-                };
-            },
-            leave: function(element, done) {
-                console.log('leave');
-
-            },
-            move: function(element, done) {
-                console.log('move');
-            }
-        }
-    });
-*/
 
 'use strict';
 
@@ -1204,17 +1143,213 @@ angular.module('core').service('Menus', [
 
 'use strict';
 
-angular.module('admin').factory('Projects', ['$resource',
-    function($resource) {
-        return $resource('projects/:projectId', {
-            projectId: '@_id'
-        }, {
-            update: {
-                method: 'PUT'
+angular.module('core').directive('stateClass', ['$state', '$rootScope', function ($state, $rootScope) {
+
+    var pageAnimator = {
+        animate: function (element, fromState, toState) {
+            this.page = toState.name;
+            this.prevPage = fromState.name || null;
+            this.animationTime = 1000;
+            this.$body = jQuery(element);
+            this.$circle = this.$body.find('.circle');
+            this.pages = {
+                projects: 'projects',
+                home: 'home',
+                concepts: 'concepts',
+                about: 'about',
+                people: 'people'
+            };
+
+            this.vw = jQuery(window).width()/100;
+            this.vh = jQuery(window).height()/100;
+
+            //this[this.page + 'Animate']();
+            this.animateCircle();
+        },
+
+        homeAnimate: function () {
+            var prevPage = this.prevPage;
+            var animationTime = this.animationTime;
+        },
+
+        projectsAnimate: function () {
+            var prevPage = this.prevPage;
+            var animationTime = this.animationTime;
+            var $projectsPage = this.$body.find('.' + this.pages.projects + '-page');
+            var vw = this.vw;
+
+            $projectsPage.css('opacity', 0);
+
+           /* $projectsPage.animate({
+                opacity: 1
+            }, {
+                duration: animationTime * 3,
+                done: animateBg
+            });*/
+
+            function animateBg () {
+                var img1 = $projectsPage.find('.projects-bg-top-img');
+                var img2 = $projectsPage.find('.projects-bg-bottom-img');
+                img1.height(50*vw).width(50*vw).addClass('animateBg');
+                img2.height(50*vw).width(50*vw).addClass('animateBg');
             }
-        });
+
+            console.log('projectsAnimate');
+        },
+
+        conceptAnimate: function () {
+            var prevPage = this.prevPage;
+            var animationTime = this.animationTime;
+        },
+
+        aboutAnimate: function () {
+            var prevPage = this.prevPage;
+            var animationTime = this.animationTime;
+        },
+
+        peopleAnimate: function () {
+            var prevPage = this.prevPage;
+            var animationTime = this.animationTime;
+        },
+
+        animateCircle: function (callback) {
+            var $circle = this.$circle;
+            var animationTime = this.animationTime;
+            var vw = this.vw;
+            var vh = this.vh;
+            var callback = typeof callback === 'function' ? callback : function(){};
+            $circle.stop();
+
+            var getOptions = function (time) {
+                time = time || animationTime;
+                return {
+                    duration: time,
+                    done: callback
+                }
+            };
+
+            //from Home to Projects
+            if (this.page === this.pages.projects || this.page === this.pages.concepts) {
+                if (this.prevPage === this.pages.home) {
+                    $circle.animate({
+                        bottom: '60%'
+                    }, getOptions(animationTime/2))
+                        .animate({
+                        right: '10%'
+                    }, getOptions(animationTime/2));
+                } else {
+                    $circle.animate({
+                        bottom: '60%',
+                        right: '10%',
+                        height: '10em',
+                        width: '10em'
+                    }, getOptions());
+                }
+            }
+
+            //from Projects to Home
+            if (this.page === this.pages.home) {
+                if (this.prevPage === this.pages.projects  || this.prevPage === this.pages.concepts) {
+                    $circle.animate({
+                        right: '52%'
+                    }, getOptions(animationTime/2)).animate({
+                        bottom: '8em'
+                    }, getOptions(animationTime/2));
+                } else {
+                    $circle.animate({
+                        right: '52%',
+                        bottom: '8em',
+                        height: '10em',
+                        width: '10em'
+                    }, getOptions());
+                }
+            }
+
+            if (this.page === this.pages.about) {
+                $circle.animate({
+                    right: -3*vw + 'px',
+                    bottom: -3*vw + 'px',
+                    height: 40*vw + 'px',
+                    width: 40*vw + 'px'
+                }, getOptions());
+            }
+
+            if (this.page === this.pages.people) {
+                $circle.animate({
+                    right: 20*vw + 'px',
+                    bottom: 60*vh + 'px',
+                    height: 5 + 'px',
+                    width: 5 + 'px'
+                }, getOptions());
+            }
+        },
+
+        resizeWindow: function () {
+            var screenWidth = window.outerWidth();
+            var screenHeight = window.outerHeight();
+            if (screenWidth / screenHeight > 2) {
+                this.$body.width(screenWidth / 2);
+            }
+        }
+    };
+
+    function link (scope, element, attrs) {
+        function stateChangeStartHandler (e, toState, toParams, fromState, fromParams) {
+            scope.body = scope.body || {};
+            scope.body.class = '';
+
+            if(fromState.name) {
+                scope.body.class = ' from-' + fromState.name + ' ';
+            }
+
+            scope.body.class += toState.name + ' ';
+            //console.log('scope.body.class: ' + scope.body.class);
+            pageAnimator.animate(element, fromState, toState);
+
+        }
+
+       /* $animate.leave(element).then(function() {
+            scope.$apply(function() {
+                console.log(' $animate.leave');
+            });
+        });*/
+
+        $rootScope.$on('$stateChangeStart', stateChangeStartHandler);
+
     }
-]);
+
+    return {
+        restrict: 'AE',
+        link: link
+    };
+}])
+    /*
+    .animation('.view', function() {
+
+        return {
+            enter: function(element, done) {
+                //run the animation here and call done when the animation is complete
+                console.log('enter');
+
+                element.addClass('long-animation');
+
+                return function(cancelled) {
+                    console.log('enter return');
+                    //this (optional) function will be called when the animation
+                    //completes or when the animation is cancelled (the cancelled
+                    //flag will be set to true if cancelled).
+                };
+            },
+            leave: function(element, done) {
+                console.log('leave');
+
+            },
+            move: function(element, done) {
+                console.log('move');
+            }
+        }
+    });
+*/
 
 'use strict';
 
@@ -1223,31 +1358,6 @@ angular.module('people').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
 		Menus.addMenuItem('mainmenu', 'People', 'people', 'item', '/people', true, null, 4);
-	}
-]);
-'use strict';
-
-//Setting up route
-angular.module('people').config(['$stateProvider',
-	function($stateProvider) {
-		// People state routing
-		$stateProvider.
-		state('people', {
-			url: '/people',
-			templateUrl: 'modules/people/views/people.client.view.html'
-		}).
-		state('createPeople', {
-			url: '/people/create',
-			templateUrl: 'modules/people/views/create-people.client.view.html'
-		}).
-		state('viewPeople', {
-			url: '/people/:peopleId',
-			templateUrl: 'modules/people/views/view-people.client.view.html'
-		}).
-		state('editPeople', {
-			url: '/people/:peopleId/edit',
-			templateUrl: 'modules/people/views/edit-people.client.view.html'
-		});
 	}
 ]);
 'use strict';
@@ -1275,45 +1385,29 @@ angular.module('people').controller('PeopleController', ['$scope', '$stateParams
 
 'use strict';
 
-angular.module('people').directive('people',
-    function () {
-        return {
-            restrict: 'AE',
-            replace: true,
-            scope: '=',
-            templateUrl: 'modules/people/directives/template/people.view.html',
-            link: function (scope, element, attrs) {
-                scope.people = [
-                    {
-                        name: 'Project 1',
-                        image: '/img/people/no-image.jpg',
-                        position: 1
-                    },
-                    {
-                        name: 'Project 2',
-                        image: '/img/people/no-image.jpg',
-                        position: 2
-                    },
-                    {
-                        name: 'Project 3',
-                        image: '/img/people/no-image.jpg',
-                        position: 3
-                    },
-                    {
-                        name: 'Project 4',
-                        image: '/img/people/no-image.jpg',
-                        position: 4
-                    },
-                    {
-                        name: 'Project 5',
-                        image: '/img/people/no-image.jpg',
-                        position: 5
-                    }
-                ];
-            }
-        };
-    }
-);
+//Setting up route
+angular.module('people').config(['$stateProvider',
+	function($stateProvider) {
+		// People state routing
+		$stateProvider.
+		state('people', {
+			url: '/people',
+			templateUrl: 'modules/people/views/people.client.view.html'
+		}).
+		state('createPeople', {
+			url: '/people/create',
+			templateUrl: 'modules/people/views/create-people.client.view.html'
+		}).
+		state('viewPeople', {
+			url: '/people/:peopleId',
+			templateUrl: 'modules/people/views/view-people.client.view.html'
+		}).
+		state('editPeople', {
+			url: '/people/:peopleId/edit',
+			templateUrl: 'modules/people/views/edit-people.client.view.html'
+		});
+	}
+]);
 'use strict';
 
 angular.module('admin').factory('People', ['$resource',
@@ -1330,6 +1424,46 @@ angular.module('admin').factory('People', ['$resource',
 
 'use strict';
 
+angular.module('admin').factory('Concepts', ['$resource',
+    function ($resource) {
+        return $resource('concepts/:projectId', {
+            projectId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
+'use strict';
+
+// Projects controller
+angular.module('projects').controller('ProjectGalleryController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
+    function ($scope, $stateParams, $state, $location, Authentication, Projects, Con) {
+        $scope.authentication = Authentication;
+
+        var Service = Projects;
+
+        $scope.project = {};
+        $scope.project.photos = ['/img/projects/pr/pr1.png', '/img/projects/pr/pr2.png'];
+
+
+        $scope.findById = function (objId) {
+            return Service.get({
+                projectId: objId
+            }, function (data) {
+                $scope.project = data;
+            });
+        };
+
+        $scope.findById($stateParams.projectId);
+
+    }
+]);
+
+'use strict';
+
 // Configuring the Articles module
 angular.module('projects').run(['Menus',
 	function(Menus) {
@@ -1341,45 +1475,30 @@ angular.module('projects').run(['Menus',
 ]);
 'use strict';
 
-//Setting up route
-angular.module('projects').config(['$stateProvider',
-	function($stateProvider) {
-		// Projects state routing
-		$stateProvider.
-		state('projects', {
-			url: '/projects',
-			templateUrl: 'modules/projects/views/list-projects.client.view.html'
-		}).
-		state('createProject', {
-			url: '/projects/create',
-			templateUrl: 'modules/projects/views/create-project.client.view.html'
-		}).
-		state('viewProject', {
-			url: '/projects/:projectId',
-			templateUrl: 'modules/projects/views/view-project.client.view.html'
-		}).
-		state('editProject', {
-			url: '/projects/:projectId/edit',
-			templateUrl: 'modules/projects/views/edit-project.client.view.html'
-		});
-	}
-]);
-'use strict';
-
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects', 'Concepts',
+    function ($scope, $stateParams, $state, $location, Authentication, Projects, Concepts) {
         $scope.authentication = Authentication;
 
-        var Service = Projects;
+        var Service;
+        if ($state.current.name === 'projects') {
+            Service = Projects;
+        } else if ($state.current.name === 'concepts') {
+            Service = Concepts;
+        }
 
         $scope.page = {};
         $scope.projects = {};
         $scope.projects.commerce = [];
         $scope.projects.live = [];
 
+        var generateUrl = function (project) {
+            return '#!/' + $state.current.name + '/' + project._id;
+        };
+
         $scope._organizeProducts = function (data) {
             data.forEach(function (project) {
+                project.url = generateUrl(project);
                 if (project.section === 'commerce') {
                     $scope.projects.commerce.push(project);
                 } else {
@@ -1394,6 +1513,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
             });
         };
 
+                  /*
         var projects = {};
         projects.commerce = $scope.projects;
         projects.live = [
@@ -1415,38 +1535,34 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
         ];
 
         $scope.projectsList = projects;
-
+                              */
     }
 ]);
 
 'use strict';
 
-angular.module('projects').directive('projects',
-    function () {
-        return {
-            restrict: 'AE',
-            replace: true,
-            scope:  {set: '='},
-            templateUrl: 'modules/projects/directives/template/projects.view.html',
-            link: function (scope, element, attrs) {
-
-            }
-        };
-    }
-);
-
-'use strict';
-
-angular.module('admin').factory('Concepts', ['$resource',
-    function ($resource) {
-        return $resource('concepts/:projectId', {
-            projectId: '@_id'
-        }, {
-            update: {
-                method: 'PUT'
-            }
-        });
-    }
+//Setting up route
+angular.module('projects').config(['$stateProvider',
+	function($stateProvider) {
+		// Projects state routing
+		$stateProvider.
+		state('projects', {
+			url: '/projects',
+			templateUrl: 'modules/projects/views/list-projects.client.view.html'
+		}).
+		state('cProject', {
+			url: '/projects/:projectId',
+			templateUrl: 'modules/projects/views/project-gallery.client.view.html'
+		}).
+        state('concepts', {
+            url: '/concepts',
+            templateUrl: 'modules/projects/views/list-projects.client.view.html'
+        }).
+		state('cConcept', {
+			url: '/concepts/:projectId/',
+			templateUrl: 'modules/projects/views/project-gallery.client.view.html'
+		});
+	}
 ]);
 
 'use strict';
@@ -1462,6 +1578,22 @@ angular.module('admin').factory('Projects', ['$resource',
         });
     }
 ]);
+
+'use strict';
+
+angular.module('projects').directive('projects',
+    function () {
+        return {
+            restrict: 'AE',
+            replace: true,
+            scope:  {set: '='},
+            templateUrl: 'modules/projects/js/template/projects.view.html',
+            link: function (scope, element, attrs) {
+
+            }
+        };
+    }
+);
 
 'use strict';
 
