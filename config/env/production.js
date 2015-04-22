@@ -20,6 +20,7 @@ module.exports = {
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                'public/lib/angular-carousel/dist/angular-carousel.js',
                 'public/lib/jquery/dist/jquery.js',
                 'public/lib/slick-carousel/slick/slick.min.js',
                 'public/lib/angular-slick/dist/slick.js'
