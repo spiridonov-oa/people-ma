@@ -1,8 +1,18 @@
 <section class="project-gallery-page animate-page" data-ng-controller="ProjectGalleryController">
    <div ng-click="goBack()" class="close-gallery">&#215;</div>
-    <ul rn-carousel rn-carousel-auto-slide="6" class="image-gallery">
+
+    <ul rn-carousel
+        rn-carousel-auto-slide="6"
+        rn-carousel-index="carousel.index"
+        rn-carousel-controls="true"
+        rn-carousel-indicator='true'
+        rn-carousel-easing="easeOutExpo"
+        class="image-gallery">
+        <div class="btn-left" ng-click="prevSlide()"></div>
         <li ng-repeat="image in project.photos">
             <div class="layer"><img ng-src="{{image}}" alt="{{ image }}"/></div>
         </li>
+        <div class="btn-right" ng-click="nextSlide()"></div>
     </ul>
+
 </section>
