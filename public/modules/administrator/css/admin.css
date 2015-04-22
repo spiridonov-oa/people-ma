@@ -26,9 +26,7 @@ body {
 
 }
 .admin-page .username {
-    position: absolute;
-    top: 12px;
-    right: 15px;
+
 }
 .admin-page .admin-menu {
     float: left;
