@@ -205,6 +205,7 @@ CARUSEL
     right: 23%;
     height: 10em;
     width: 10em;
+    z-index: 0;
 }
 
 
