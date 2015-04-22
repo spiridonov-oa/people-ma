@@ -15,6 +15,7 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+                'public/lib/angular-carousel/dist/angular-carousel.min.css',
                 'public/lib/slick-carousel/slick/slick.css',
                 'public/lib/slick-carousel/slick/slick-theme.css'
 			],

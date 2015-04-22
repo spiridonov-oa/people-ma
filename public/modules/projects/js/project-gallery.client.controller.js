@@ -2,24 +2,24 @@
 
 // Projects controller
 angular.module('projects').controller('ProjectGalleryController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-    function ($scope, $stateParams, $state, $location, Authentication, Projects, Con) {
+    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
         $scope.authentication = Authentication;
 
         var Service = Projects;
 
         $scope.project = {};
-        $scope.project.photos = [];
+        $scope.project.photos = ['/img/projects/pr/pr1.png', '/img/projects/pr/pr2.png'];
 
-
+/*
         $scope.findById = function (objId) {
             return Service.get({
                 projectId: objId
             }, function (data) {
-                $scope.project = data;
+                //$scope.project = data;
             });
-        };
+        };*/
 
-        $scope.findById($stateParams.projectId);
+        //$scope.findById($stateParams.projectId);
 
     }
 ]);

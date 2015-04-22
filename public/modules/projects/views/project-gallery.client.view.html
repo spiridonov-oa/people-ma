@@ -1,8 +1,8 @@
 <section class="project-gallery-page animate-page" data-ng-controller="ProjectGalleryController">
-
-    <ul rn-carousel class="image">
+   <div class="close-gallery">&#215;</div>
+    <ul rn-carousel rn-carousel-auto-slide="6" class="image-gallery">
         <li ng-repeat="image in project.photos">
-            <div class="layer">{{ image }}</div>
+            <div class="layer"><img ng-src="{{image}}" alt="{{ image }}"/></div>
         </li>
     </ul>
 </section>

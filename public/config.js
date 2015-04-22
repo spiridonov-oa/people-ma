@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'peopleMa';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angular-carousel', 'slick'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {
