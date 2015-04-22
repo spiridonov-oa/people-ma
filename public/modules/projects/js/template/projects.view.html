@@ -1,8 +1,8 @@
 <div class="projects-line-holder" >
     <div class="projects-line">
-        <slick dots=true infinite=false speed=300 touch-move=true slides-to-scroll=1 >
+        <slick dots=true infinite=false speed=300 touch-move=true slides-to-scroll=5 >
             <a data-ng-repeat="project in set"
-               ng-href="project.url"
+               ng-href="{{project.url}}"
                class="project-item">
                 <div class="project-icon"><img data-ng-src="{{project.icon}}" /></div>
                 <div class="project-name" data-ng-bind="project.name"></div>
