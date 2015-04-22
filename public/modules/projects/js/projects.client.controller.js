@@ -1,19 +1,29 @@
 'use strict';
 
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects',
-    function ($scope, $stateParams, $state, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$state', '$location', 'Authentication', 'Projects', 'Concepts',
+    function ($scope, $stateParams, $state, $location, Authentication, Projects, Concepts) {
         $scope.authentication = Authentication;
 
-        var Service = Projects;
+        var Service;
+        if ($state.current.name === 'projects') {
+            Service = Projects;
+        } else if ($state.current.name === 'concepts') {
+            Service = Concepts;
+        }
 
         $scope.page = {};
         $scope.projects = {};
         $scope.projects.commerce = [];
         $scope.projects.live = [];
 
+        var generateUrl = function (project) {
+            return '#!/' + $state.current.name + '/' + project._id;
+        };
+
         $scope._organizeProducts = function (data) {
             data.forEach(function (project) {
+                project.url = generateUrl(project);
                 if (project.section === 'commerce') {
                     $scope.projects.commerce.push(project);
                 } else {
@@ -28,6 +38,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
             });
         };
 
+                  /*
         var projects = {};
         projects.commerce = $scope.projects;
         projects.live = [
@@ -49,6 +60,6 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
         ];
 
         $scope.projectsList = projects;
-
+                              */
     }
 ]);
