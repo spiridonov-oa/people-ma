@@ -9,15 +9,15 @@ angular.module('projects').config(['$stateProvider',
 			url: '/projects',
 			templateUrl: 'modules/projects/views/list-projects.client.view.html'
 		}).
-		state('viewProject', {
+		state('cProject', {
 			url: '/projects/:projectId',
-			templateUrl: 'modules/projects/views/view-project.client.view.html'
+			templateUrl: 'modules/projects/views/project-gallery.client.view.html'
 		}).
         state('concepts', {
             url: '/concepts',
             templateUrl: 'modules/projects/views/list-projects.client.view.html'
         }).
-		state('editProject', {
+		state('cConcept', {
 			url: '/concepts/:projectId/',
 			templateUrl: 'modules/projects/views/project-gallery.client.view.html'
 		});

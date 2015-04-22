@@ -7,48 +7,19 @@ angular.module('projects').controller('ProjectGalleryController', ['$scope', '$s
 
         var Service = Projects;
 
-        $scope.page = {};
-        $scope.projects = {};
-        $scope.projects.commerce = [];
-        $scope.projects.live = [];
+        $scope.project = {};
+        $scope.project.photos = [];
 
-        $scope._organizeProducts = function (data) {
-            data.forEach(function (project) {
-                if (project.section === 'commerce') {
-                    $scope.projects.commerce.push(project);
-                } else {
-                    $scope.projects.live.push(project);
-                }
-            })
-        };
 
-        $scope.page.find = function () {
-            Service.query(function (data) {
-                $scope._organizeProducts(data);
+        $scope.findById = function (objId) {
+            return Service.get({
+                projectId: objId
+            }, function (data) {
+                $scope.project = data;
             });
         };
 
-        var projects = {};
-        projects.commerce = $scope.projects;
-        projects.live = [
-            {
-                name: 'Project live 1',
-                image: 'img/projects/icons_project/projects_live/icons.png',
-                position: 1
-            },
-            {
-                name: 'Project live 2',
-                image: 'img/projects/icons_project/projects_live/icons1.png',
-                position: 2
-            },
-            {
-                name: 'Project live 3',
-                image: 'img/projects/icons_project/projects_live/icons2.png',
-                position: 3
-            }
-        ];
-
-        $scope.projectsList = projects;
+        $scope.findById($stateParams.projectId);
 
     }
 ]);
