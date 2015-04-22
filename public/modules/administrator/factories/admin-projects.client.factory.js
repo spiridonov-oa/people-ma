@@ -30,7 +30,9 @@ angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
                     project.find();
                     project.data = {};
                 }, function (errorResponse) {
-                    project.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        project.error = errorResponse.data.message;
+                    }
                 });
             };
 
@@ -58,13 +60,20 @@ angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
                     $location.path(projectUrl + '/' + data._id);
                     project.find();
                 }, function (errorResponse) {
-                    project.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        project.error = errorResponse.data.message;
+                    }
                 });
             };
 
             project.find = function (props) {
+                var date = new Date();
+                console.log('find ' + projectType);
                 Service.query(function (data) {
                     project.objArray = data;
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
                 });
             };
 
@@ -77,17 +86,28 @@ angular.module('admin').factory('AdminProjectFactory', ['$state', '$location',
             };
 
             project.findById = function (objId) {
+                var date = new Date();
+                console.log('findById ' + projectType);
                 return Service.get({
                     projectId: objId
+                }, function () {
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
                 });
             };
 
             project.findOne = function () {
+                var date = new Date();
+                console.log('findOne ' + projectType);
                 Service.get({
                     projectId: projectId
                 }, function (data) {
                     project.data = data;
                     project.find();
+                    var newDate = new Date();
+                    console.log((newDate.getTime() - date.getTime())/1000);
+                    console.log('------------------------------');
                 });
             };
 

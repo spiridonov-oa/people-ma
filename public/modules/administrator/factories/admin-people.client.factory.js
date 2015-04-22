@@ -26,7 +26,9 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
                     person.find();
                     person.data = {};
                 }, function (errorResponse) {
-                    person.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
                 });
             };
 
@@ -54,7 +56,9 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
                     $location.path(personUrl + '/' + data._id);
                     person.find();
                 }, function (errorResponse) {
-                    person.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
                 });
             };
 
@@ -62,7 +66,9 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
                 AdminPeople.query(function (data) {
                     person.peopleArray = data;
                 },function (errorResponse) {
-                    person.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
                 });
             };
 
@@ -81,7 +87,9 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
                     person.data = data;
                     person.find();
                 },function (errorResponse) {
-                    person.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
                 });
             };
 
@@ -92,7 +100,9 @@ angular.module('admin').factory('AdminPersonFactory', ['$state', '$location', 'A
                     person.data = data;
                     person.find();
                 },function (errorResponse) {
-                    person.error = errorResponse.data.message;
+                    if (errorResponse.data) {
+                        person.error = errorResponse.data.message;
+                    }
                 });
             };
 
