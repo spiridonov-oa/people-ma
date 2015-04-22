@@ -72,7 +72,9 @@ exports.delete = function(req, res) {
 /**
  * List of Projects
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
+    var date = new Date();
+    console.log('list');
 	Project.find().sort('-created').populate('user', 'displayName').exec(function(err, projects) {
 		if (err) {
 			return res.status(400).send({
@@ -80,6 +82,9 @@ exports.list = function(req, res) {
 			});
 		} else {
 			res.jsonp(projects);
+            var newDate = new Date();
+            console.log((newDate.getTime() - date.getTime())/1000);
+            console.log('------------------------------');
 		}
 	});
 };
@@ -88,10 +93,15 @@ exports.list = function(req, res) {
  * Project middleware
  */
 exports.projectByID = function(req, res, next, id) {
-	Project.findById(id).populate('user', 'displayName').exec(function(err, project) {
+    var date = new Date();
+    console.log('projectByID');
+    Project.findById(id).populate('user', 'displayName').exec(function(err, project) {
 		if (err) return next(err);
 		if (! project) return next(new Error('Failed to load Project ' + id));
 		req.project = project ;
+        var newDate = new Date();
+        console.log((newDate.getTime() - date.getTime())/1000);
+        console.log('------------------------------');
 		next();
 	});
 };
@@ -109,19 +119,25 @@ exports.projectByProperties = function(req, res, next, props) {
 };
 
 exports.projects = function(req, res) {
+    var date = new Date();
+    console.log('projects');
     Project.find({type: 'project'}).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
-        console.log("res projects");
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
             res.jsonp(projects);
+            var newDate = new Date();
+            console.log((newDate.getTime() - date.getTime())/1000);
+            console.log('------------------------------');
         }
     });
 };
 
 exports.concepts = function(req, res) {
+    var date = new Date();
+    console.log('concepts');
     Project.find({type: 'concept'}).sort('-created').populate('user', 'displayName').exec(function(err, projects) {
         if (err) {
             return res.status(400).send({
@@ -129,6 +145,9 @@ exports.concepts = function(req, res) {
             });
         } else {
             res.jsonp(projects);
+            var newDate = new Date();
+            console.log((newDate.getTime() - date.getTime())/1000);
+            console.log('------------------------------');
         }
     });
 };
