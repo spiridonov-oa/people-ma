@@ -9,10 +9,11 @@
                 <div ng-if="!project.objArray.length" class="empty">The list is empty</div>
 
                 <a ng-href="{{project.path}}/{{projectItem._id}}"
-                   ng-repeat="projectItem in project.objArray | orderBy:'order'"
+                   ng-repeat="projectItem in project.objArray | orderBy:['section','order']"
                    class="list-group-item admin-list-item"
                    ng-class="{ 'active': projectItem._id === project.currentProjectId}">
                     <div class="list-order">{{projectItem.order}}</div>
+                    <div class="list-section">{{projectItem.section}}</div>
                     <div class="item-icon"><img ng-src="{{projectItem.icon}}" alt=""/></div>
                     <div class="item-details">
                         <h4 class="list-group-item-heading">{{projectItem.name}}</h4>

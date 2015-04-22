@@ -61,8 +61,11 @@ body {
 .admin-page .item-details {
     margin-left: 80px;
 }
-.admin-page .list-order {
+.admin-page .list-order,
+.admin-page .list-section{
     float: right;
+    font-size: 12px;
+    margin: 0 0 10px 10px;
 }
 .admin-page .item-icon img{
     width: 100%;

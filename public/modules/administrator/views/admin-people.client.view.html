@@ -3,8 +3,6 @@
         <h1>Admin panel</h1>
         <div class="username"><a ng-href="#!/settings/profile">{{authentication.user.username}}</a></div>
 
-
-
         <admin-menu></admin-menu>
         <div class="list">
             <div ng-if="!person.peopleArray.length" class="empty">The list is empty</div>
@@ -63,9 +61,7 @@
                         <label class="input-group-addon" for="order">Order</label>
                         <input name="order" data-ng-model="person.data.order" id="order" class="form-control"  placeholder="Order">
                     </div>
-                    <div class="input-group">
-                        <button type="button" class="btn btn-primary">Add photos</button>
-                    </div>
+
                     <div class="buttons">
                         <input type="submit" class="btn btn-success" value="Save">
                         <input class="btn btn-danger pull-right" value="Remove" data-ng-click="person.remove()">
