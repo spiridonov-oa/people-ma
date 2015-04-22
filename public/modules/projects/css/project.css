@@ -83,8 +83,9 @@
     background-size: cover;
 }
 
-.projects-page .projects-page .line{
+.projects-page .line{
     display: table-row;
+    height: 150px;
 }
 
 .projects-page .projects-type {
@@ -186,8 +187,13 @@ CARUSEL
     color: #fff;
     text-align: center;
     opacity: 0.6;
+    z-index: 1;
+    cursor: pointer;
 }
 
+.project-gallery-page .close-gallery:hover {
+    opacity: 0.9;
+}
 
 /**************************************************************************************
  CIRCLE

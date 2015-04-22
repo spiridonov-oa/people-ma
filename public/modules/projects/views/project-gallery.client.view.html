@@ -1,5 +1,5 @@
 <section class="project-gallery-page animate-page" data-ng-controller="ProjectGalleryController">
-   <div class="close-gallery">&#215;</div>
+   <div ng-click="goBack()" class="close-gallery">&#215;</div>
     <ul rn-carousel rn-carousel-auto-slide="6" class="image-gallery">
         <li ng-repeat="image in project.photos">
             <div class="layer"><img ng-src="{{image}}" alt="{{ image }}"/></div>

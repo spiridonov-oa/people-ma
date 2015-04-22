@@ -7,6 +7,11 @@ angular.module('projects').controller('ProjectGalleryController', ['$scope', '$s
 
         var Service = Projects;
 
+        $scope.goBack = function () {
+            $state.go($state.previous.name);
+        };
+
+
         $scope.project = {};
         $scope.project.photos = ['/img/projects/pr/pr1.png', '/img/projects/pr/pr2.png'];
 
