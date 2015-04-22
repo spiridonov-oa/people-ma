@@ -4,10 +4,15 @@ angular.module('admin').controller('AdminPeopleController', ['$scope', '$state',
     function($scope, $state, Authentication, $location, AdminPersonFactory) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        if (!$scope.authentication.user || !$scope.authentication.user._id) {
-            $location.path('/signin');
+
+        function isAuthorised () {
+            return ($scope.authentication.user && $scope.authentication.user._id);
         }
 
+        if (!isAuthorised()) {
+            $location.path('/signin');
+            return;
+        }
 
         $scope.person = AdminPersonFactory.getPerson();
 
