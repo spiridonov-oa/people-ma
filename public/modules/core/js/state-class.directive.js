@@ -12,8 +12,8 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
             this.pages = {
                 projects: 'projects',
                 home: 'home',
-                concept: 'concept',
-                aboutAs: 'about',
+                concepts: 'concepts',
+                about: 'about',
                 people: 'people'
             };
 
@@ -72,6 +72,8 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
         animateCircle: function (callback) {
             var $circle = this.$circle;
             var animationTime = this.animationTime;
+            var vw = this.vw;
+            var vh = this.vh;
             var callback = typeof callback === 'function' ? callback : function(){};
             $circle.stop();
 
@@ -84,7 +86,7 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
             };
 
             //from Home to Projects
-            if (this.page === this.pages.projects) {
+            if (this.page === this.pages.projects || this.page === this.pages.concepts) {
                 if (this.prevPage === this.pages.home) {
                     $circle.animate({
                         bottom: '60%'
@@ -104,20 +106,38 @@ angular.module('core').directive('stateClass', ['$state', '$rootScope', function
 
             //from Projects to Home
             if (this.page === this.pages.home) {
-                if (this.prevPage === this.pages.projects) {
+                if (this.prevPage === this.pages.projects  || this.prevPage === this.pages.concepts) {
                     $circle.animate({
-                        right: '58%'
+                        right: '52%'
                     }, getOptions(animationTime/2)).animate({
-                        bottom: '0'
+                        bottom: '8em'
                     }, getOptions(animationTime/2));
                 } else {
                     $circle.animate({
-                        right: '58%',
-                        bottom: '0',
+                        right: '52%',
+                        bottom: '8em',
                         height: '10em',
                         width: '10em'
                     }, getOptions());
                 }
+            }
+
+            if (this.page === this.pages.about) {
+                $circle.animate({
+                    right: -3*vw + 'px',
+                    bottom: -3*vw + 'px',
+                    height: 40*vw + 'px',
+                    width: 40*vw + 'px'
+                }, getOptions());
+            }
+
+            if (this.page === this.pages.people) {
+                $circle.animate({
+                    right: 20*vw + 'px',
+                    bottom: 60*vh + 'px',
+                    height: 5 + 'px',
+                    width: 5 + 'px'
+                }, getOptions());
             }
         },
 
