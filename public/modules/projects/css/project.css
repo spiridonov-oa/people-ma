@@ -19,21 +19,23 @@
     top: 0;
     opacity: 1;
     z-index: -2;
+    background: url('../img/projects-bg.jpg')  no-repeat;
 }
 
 .projects-bg-top-img {
+    display: none;
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 50%;
+    bottom: -28%;
+    right: -23%;
+    width: 72%;
+    height: 167%;
     opacity: 1;
     background: url('../img/projects-img.png') no-repeat;
     background-size: 100%;
 
-    -ms-transform: rotate(7deg); /* IE 9 */
-    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
-    transform: rotate(7deg);
+    -ms-transform: rotate(150deg); /* IE 9 */
+    -webkit-transform: rotate(150deg); /* Chrome, Safari, Opera */
+    transform: rotate(150deg);
 
     -webkit-transition:all 4s ease-in-out;
     -moz-transition:all 4s ease-in-out;
@@ -42,6 +44,7 @@
 }
 
 .projects-bg-bottom-img {
+    display: none;
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -69,6 +72,7 @@
 }
 
 .projects-bg-sonne {
+    display: none;
     position: absolute;
     width: 250px;
     height: 228px;
@@ -92,6 +96,9 @@
     text-align: right;
 }
 
+.projects-line {
+    height: 88px;
+}
 .projects-line-holder {
     position: relative;
     border-left: 1px dashed #333;
@@ -113,7 +120,7 @@
 }
 
 .project-item {
-    margin-left: -5px;
+    margin-left: 10px;
     display: inline-block;
     min-height: 66px;
     min-width: 66px;
@@ -151,7 +158,8 @@
 /**************************************************************************************
  CIRCLE
  *************************************************************************************/
-.projects .circle {
+.projects .circle,
+.concepts .circle {
     display: block;
     bottom: 24em;
     right: 23%;
