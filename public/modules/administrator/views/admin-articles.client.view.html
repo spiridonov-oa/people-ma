@@ -1,0 +1,82 @@
+<div class="admin-page admin-article" ng-if="isAuthorised">
+    <div class="page-wrapper">
+
+        <div class="header">
+            <div class="pull-right">
+                <a ng-href="#!/settings/profile">{{authentication.user.username}}</a>
+                <a class="signout" ng-href="/auth/signout">| SignOut</a>
+            </div>
+            <h1>Admin panel</h1>
+        </div>
+
+        <admin-menu></admin-menu>
+
+        <div class="list">
+            <div ng-if="!article.list.length" class="empty">The list is empty</div>
+
+            <div class="list-group">
+                <a ng-href="{{article.parentPath}}/{{articleItem._id}}"
+                   ng-repeat="articleItem in article.list | orderBy:'order'"
+                   class="list-group-item admin-list-item"
+                   ng-click="articleItem._id"
+                   ng-class="{ 'active': articleItem._id === article.id}">
+                    <div class="list-order">{{articleItem.order}}</div>
+                    <div class="item-details">
+                        <h4 class="list-group-item-heading">{{articleItem.title}}</h4>
+                        <p class="list-group-item-text">{{articleItem.content}}</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <div class="form">
+            <h3 ng-if="!article.isNew">{{article.data.title}}</h3>
+            <h3 ng-if="article.isNew">New Person Information</h3>
+
+            <div><a class="btn btn-success create-new-btn" ng-if="!article.isNew" ng-href="{{article.parentPath}}/">+ Create New</a></div>
+
+            <div class="message-wrapper" ng-if="article.error">
+                <div class="message">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        {{article.error}}
+                    </div>
+                </div>
+            </div>
+
+            <form name="articleForm" class="form-horizontal" data-ng-submit="article.submit()" novalidate>
+                <fieldset>
+                    <div class="input-group" >
+                        <label class="input-group-addon" for="title">Title</label>
+                        <input name="title" data-ng-model="article.data.title" id="title" class="form-control" placeholder="Title" required  type="text">
+                    </div>
+
+                    <div class="textarea-group">
+                        <textarea name="content" data-ng-model="article.data.content" id="content" class="form-control" cols="30" rows="5" placeholder="Content"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-group-addon" for="order">Order</label>
+                        <input name="order" data-ng-model="article.data.order" id="order" class="form-control"  placeholder="Order">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="" for="enable">Enabled
+                            <input name="enable" data-ng-model="article.data.enable" id="enable" type="checkbox">
+                        </label>
+                    </div>
+
+                    <div class="buttons">
+                        <input type="submit" class="btn btn-success" value="Save">
+                        <input class="btn btn-danger pull-right" value="Remove" data-ng-click="article.remove()">
+                    </div>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="article.error"></strong>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>

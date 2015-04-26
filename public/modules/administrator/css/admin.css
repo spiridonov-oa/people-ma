@@ -56,9 +56,6 @@ body {
     overflow: hidden;
     background: #fff;
 }
-.admin-page .item-details {
-    margin-left: 80px;
-}
 .admin-page .list-order,
 .admin-page .list-section{
     float: right;

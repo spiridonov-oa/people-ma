@@ -1,11 +1,12 @@
 <div class="admin-page admin-people">
     <div class="page-wrapper">
         <div class="header">
-            <h1>Admin panel</h1>
+
             <div class="pull-right">
                 <a ng-href="#!/settings/profile">{{authentication.user.username}}</a>
-                <a class="btn signout" ng-href="/auth/signout">SignOut</a>
+                <a class="signout" ng-href="/auth/signout">| SignOut</a>
             </div>
+            <h1>Admin panel</h1>
         </div>
         <admin-menu></admin-menu>
         <div class="list">
@@ -17,7 +18,7 @@
                    class="list-group-item admin-list-item"
                    ng-class="{ 'active': personItem._id === person.currentPersonId}">
                     <div class="list-order">{{personItem.order}}</div>
-                    <div class="item-icon"><img ng-src="{{personItem.icon}}" alt=""/></div>
+                    <div class="item-icon" ng-if="personItem.icon"><img ng-src="{{personItem.icon}}" alt=""/></div>
                     <div class="item-details">
                         <h4 class="list-group-item-heading">{{personItem.fName + ' ' + personItem.lName}}</h4>
                         <p class="list-group-item-text">{{personItem.position}}</p>

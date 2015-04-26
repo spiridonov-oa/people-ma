@@ -25,6 +25,14 @@ var ArticleSchema = new Schema({
 		default: '',
 		trim: true
 	},
+    order: {
+        type: Number,
+        default: 0
+    },
+    enable: {
+        type: Boolean,
+        default: true
+    },
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'

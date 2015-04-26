@@ -38,6 +38,17 @@ angular.module('admin').config(['$stateProvider',
                 url: '/admin/people/:personId',
                 controller: 'AdminPeopleController',
                 templateUrl: 'modules/administrator/views/admin-people.client.view.html'
-            });
+            }).
+            state('adminArticles', {
+                url: '/admin/articles',
+                controller: 'AdminArticlesController',
+                templateUrl: 'modules/administrator/views/admin-articles.client.view.html'
+            }).
+            state('adminCurrentArticle', {
+                url: '/admin/articles/:articleId',
+                controller: 'AdminArticlesController',
+                templateUrl: 'modules/administrator/views/admin-articles.client.view.html'
+            })
+        ;
     }
 ]);

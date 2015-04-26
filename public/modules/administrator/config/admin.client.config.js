@@ -8,5 +8,6 @@ angular.module('admin').run(['Menus',
         Menus.addMenuItem('admin-menu', 'Projects', 'adminProjects', 'dropdown', '/admin/projects');
         Menus.addMenuItem('admin-menu', 'Concepts', 'adminConcepts', 'dropdown', '/admin/concepts');
         Menus.addMenuItem('admin-menu', 'People', 'adminPeople', 'dropdown', '/admin/people');
+        Menus.addMenuItem('admin-menu', 'News', 'adminArticles', 'dropdown', '/admin/articles');
 	}
 ]);
