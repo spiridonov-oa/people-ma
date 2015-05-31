@@ -42,6 +42,12 @@ body {
     padding-left: 240px;
     padding-right: 450px;
 }
+.admin-page .list .disables{
+    background: #eee;
+}
+.admin-page .list .active.disables {
+    background-color: #337ab7;
+}
 .admin-page .admin-list-item {
     min-height: 100px;
     position: relative;
