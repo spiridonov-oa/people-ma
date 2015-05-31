@@ -27,7 +27,7 @@ angular.module('admin').controller('AdminArticlesController', ['$scope', '$state
             title: '',
             content: '',
             enable: true,
-            order: ''
+            order: 0
         };
         $scope.article.id = $state.params.articleId;
         $scope.article.getRequestParams = {articleId: $state.params.articleId};
@@ -51,10 +51,6 @@ angular.module('admin').controller('AdminArticlesController', ['$scope', '$state
 
         if (!$scope.article.isNew) {
             $scope.article.findOne();
-        }
-
-        if (!$scope.article.list || $scope.article.list.length < 1) {
-            $scope.article.find();
         }
 
         $scope.article.chooseOne = function (id) {

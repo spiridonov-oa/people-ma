@@ -5,11 +5,9 @@ angular.module('admin').controller('AdminConceptsController', ['$scope', '$state
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
-        function isAuthorised () {
-            return ($scope.authentication.user && $scope.authentication.user._id);
-        }
+        $scope.isAuthorised = $scope.authentication.user && $scope.authentication.user._id;
 
-        if (!isAuthorised()) {
+        if (!$scope.isAuthorised) {
             $location.path('/signin');
             return;
         }
