@@ -1,4 +1,4 @@
-<div class="admin-page admin-article" ng-if="isAuthorised">
+<div class="admin-page admin-article" ng-init="article.find()" ng-if="isAuthorised">
     <div class="page-wrapper">
 
         <div class="header">
@@ -19,7 +19,7 @@
                    ng-repeat="articleItem in article.list | orderBy:'order'"
                    class="list-group-item admin-list-item"
                    ng-click="articleItem._id"
-                   ng-class="{ 'active': articleItem._id === article.id}">
+                   ng-class="{ 'active': articleItem._id === article.id, 'disables': !articleItem.enable}">
                     <div class="list-order">{{articleItem.order}}</div>
                     <div class="item-details">
                         <h4 class="list-group-item-heading">{{articleItem.title}}</h4>
